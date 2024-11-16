@@ -9,8 +9,7 @@ conaninfo.txt
 # Cmake
 CMakeFiles
 CMakeCache.txt
-cmake-build-debug
-cmake-build-release
+cmake-build*/
 cmake_install.cmake
 Makefile
 
