@@ -4,11 +4,13 @@ project(OpenGameCore)
 # Define source code as library
 # ----------------------------------------------------------------------
 add_library(${PROJECT_NAME} STATIC
-        Application.cpp
-        Application.h
+        Engine.cpp
+        Engine.h
 
-        Game/GameInstance.cpp
         Game/GameInstance.h
+
+        Graphics/RenderingHandler.cpp
+        Graphics/RenderingHandler.h
 )
 # ----------------------------------------------------------------------
 # raylib dependency

@@ -1,23 +1,27 @@
 #include "raylib.h"
-#include "Application.h"
+#include "Engine.h"
+
+#include <utility>
 
 namespace OpenGameCore
 {
-    static Application* s_Instance = nullptr;
+    static Engine* s_Instance = nullptr;
 
-    Application::Application(const ApplicationConfig& cfg) : m_AppCfg(cfg)
+    Engine::Engine(EngineConfig cfg)
+        : m_AppCfg(std::move(cfg)), m_RenderingHandler(cfg.Width, cfg.Height)
     {
         s_Instance = this;
     }
 
-    Application::~Application()
+    Engine::~Engine()
     {
         s_Instance = nullptr;
     }
 
-    void Application::Run(std::unique_ptr<GameInstance> game)
+    void Engine::Run(const std::shared_ptr<GameInstance>& game)
     {
-        m_Game = std::move(game);
+        m_Game = game;
+
         InitWindow(m_AppCfg.Width * m_AppCfg.Scale, m_AppCfg.Height * m_AppCfg.Scale, m_AppCfg.Title.c_str());
         SetExitKey(0);
         SetTargetFPS(60);
@@ -44,20 +48,23 @@ namespace OpenGameCore
         UnloadImage(m_Icon);
     }
 
-    void Application::OnUpdate()
+    void Engine::OnUpdate()
     {
         m_Game->OnUpdate(m_DeltaTime);
     }
 
-    void Application::OnRender()
+    void Engine::OnRender()
     {
         BeginDrawing();
-
         ClearBackground(RAYWHITE);
 
-        DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
         m_Game->OnRender();
 
         EndDrawing();
+    }
+
+    Engine& Engine::Get()
+    {
+        return *s_Instance;
     }
 } // OpenGameCore

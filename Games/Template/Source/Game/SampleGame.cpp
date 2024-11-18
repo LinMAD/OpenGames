@@ -3,14 +3,23 @@
 #include <iostream>
 #include <ostream>
 
-namespace TemplateGame {
+#include "Engine.h"
 
-    void SampleGame::OnUpdate(float deltaTime) {
+namespace TemplateGame
+{
+    void SampleGame::OnUpdate(const float deltaTime)
+    {
         std::cout << "Updating game with deltaTime: " << deltaTime << std::endl;
     }
 
-    void SampleGame::OnRender() {
-        std::cout << "Rendering the game..." << std::endl;
+    void SampleGame::OnRender()
+    {
+        OpenGameCore::Engine::GetRendingHandler().RenderText(
+            "Congrats! You created your first window!",
+            130,
+            200,
+            30,
+            0xff0000d3
+        );
     }
-
 } // namespace TemplateGame

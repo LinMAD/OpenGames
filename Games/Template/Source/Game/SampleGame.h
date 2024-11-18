@@ -4,10 +4,14 @@
 
 namespace TemplateGame
 {
-    class SampleGame : public OpenGameCore::GameInstance
+    /**
+    * @class SampleGame
+    * @brief Just a template sample game that shows how it interacts with OpenGamesEngine.
+    */
+    class SampleGame final : public OpenGameCore::GameInstance
     {
     public:
-        void OnUpdate(float deltaTime);
-        void OnRender();
+        void OnUpdate(float deltaTime) override;
+        void OnRender() override;
     };
 }

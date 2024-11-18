@@ -1,18 +1,18 @@
 #include <memory>
 
-#include "Application.h"
+#include "Engine.h"
 
 #include "Source/Game/SampleGame.h"
 
 int main(void)
 {
-    const OpenGameCore::ApplicationConfig cfg{
+    const OpenGameCore::EngineConfig cfg{
         .Width = 300,
-        .Title = "Template"
+        .Title = "Template - Sample Game"
     };
 
-    OpenGameCore::Application app(cfg);
-    app.Run(std::unique_ptr<TemplateGame::SampleGame>());
+    OpenGameCore::Engine coreEngine(cfg);
+    coreEngine.Run(std::make_shared<TemplateGame::SampleGame>());
 
     return 0;
 }
