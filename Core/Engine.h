@@ -4,7 +4,8 @@
 #include <string>
 
 #include "raylib.h"
-#include "Game/GameInstance.h"
+
+#include "Game/AbstractGameInstance.h"
 #include "Graphics/RenderingHandler.h"
 
 namespace OpenGameCore
@@ -18,6 +19,8 @@ namespace OpenGameCore
         std::string Title = "Open Game Core";
         std::string IconPath = "assets/icon.png";
         // Window related
+
+        bool DisplayFPS = true;
     };
 
     /**
@@ -34,7 +37,7 @@ namespace OpenGameCore
          * Run game in Engine.
          * @param game Implementation
          */
-        void Run(const std::shared_ptr<GameInstance>& game);
+        void Run(const std::shared_ptr<AbstractGameInstance>& game);
 
         /**
          * Updates Engine and Game state.
@@ -46,6 +49,7 @@ namespace OpenGameCore
          */
         void OnRender();
 
+    public:
         /**
          * @return Engine instance as singleton.
          */
@@ -62,9 +66,9 @@ namespace OpenGameCore
         double m_LastTime = 0;
         float m_Time = 0.0f;
 
-        EngineConfig m_AppCfg;
+        EngineConfig m_Config;
         RenderingHandler m_RenderingHandler;
-        std::shared_ptr<GameInstance> m_Game;
+        std::shared_ptr<AbstractGameInstance> m_Game;
         Image m_Icon{};
     };
 } // OpenGameCore

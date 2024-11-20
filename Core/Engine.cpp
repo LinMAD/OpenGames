@@ -8,7 +8,7 @@ namespace OpenGameCore
     static Engine* s_Instance = nullptr;
 
     Engine::Engine(EngineConfig cfg)
-        : m_AppCfg(std::move(cfg)), m_RenderingHandler(cfg.Width, cfg.Height)
+        : m_Config(std::move(cfg)), m_RenderingHandler(cfg.Width, cfg.Height)
     {
         s_Instance = this;
     }
@@ -18,15 +18,16 @@ namespace OpenGameCore
         s_Instance = nullptr;
     }
 
-    void Engine::Run(const std::shared_ptr<GameInstance>& game)
+    void Engine::Run(const std::shared_ptr<AbstractGameInstance>& game)
     {
         m_Game = game;
 
-        InitWindow(m_AppCfg.Width * m_AppCfg.Scale, m_AppCfg.Height * m_AppCfg.Scale, m_AppCfg.Title.c_str());
+        InitWindow(m_Config.Width * m_Config.Scale, m_Config.Height * m_Config.Scale, m_Config.Title.c_str());
+
         SetExitKey(0);
         SetTargetFPS(60);
 
-        m_Icon = LoadImage(m_AppCfg.IconPath.c_str());
+        m_Icon = LoadImage(m_Config.IconPath.c_str());
         SetWindowIcon(m_Icon);
 
         m_LastTime = GetTime();
@@ -57,6 +58,12 @@ namespace OpenGameCore
     {
         BeginDrawing();
         ClearBackground(RAYWHITE);
+        if (m_Config.DisplayFPS)
+        {
+            GetRendingHandler().RenderText(
+                TextFormat("FPS: %i", GetFPS()), 5, 0, 20, 0xcc33ff
+            );
+        }
 
         m_Game->OnRender();
 

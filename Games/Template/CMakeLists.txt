@@ -9,7 +9,8 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 add_executable(${PROJECT_NAME}
         main.cpp
 
-        Source/Game/SampleGame.cpp
+        Source/Game/ExampleGame.cpp
+        Source/Entity/Floppy.cpp
 )
 # Get the sources together
 #

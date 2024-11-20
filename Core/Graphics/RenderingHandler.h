@@ -1,6 +1,7 @@
 #pragma once
 
-#include "raylib.h"
+#include "TextureManager.h"
+#include "Entity/AbstractEntity.h"
 
 namespace OpenGameCore
 {
@@ -14,10 +15,36 @@ namespace OpenGameCore
         RenderingHandler(int width, int height);
         ~RenderingHandler() = default;
 
+        /**
+         * Rendering simple text on the screen.
+         *
+         * @param text
+         * @param posX
+         * @param posY
+         * @param fontSize
+         * @param colorHexValue
+         */
         void RenderText(const char* text, int posX, int posY, unsigned int fontSize, unsigned int colorHexValue);
+
+        /**
+         * Render simple sprite.
+         *
+         * @param texture
+         * @param position
+         * @param colorHexValue
+         */
+        void RenderSprite(const Texture2D& texture, Vector2 position, unsigned int colorHexValue);
+
+    public:
+        /**
+         * @return TextureManager
+         */
+        TextureManager& GetTextureManager();
 
     private:
         int m_Width = 0;
         int m_Height = 0;
+
+        TextureManager m_TextureManager;
     };
 } // OpenGameCore

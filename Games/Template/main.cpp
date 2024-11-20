@@ -2,7 +2,7 @@
 
 #include "Engine.h"
 
-#include "Source/Game/SampleGame.h"
+#include "Source/Game/ExampleGame.h"
 
 int main(void)
 {
@@ -12,7 +12,7 @@ int main(void)
     };
 
     OpenGameCore::Engine coreEngine(cfg);
-    coreEngine.Run(std::make_shared<TemplateGame::SampleGame>());
+    coreEngine.Run(std::make_shared<TemplateGame::ExampleGame>());
 
     return 0;
 }

@@ -4,6 +4,7 @@ namespace OpenGameCore
 {
     RenderingHandler::RenderingHandler(const int width, const int height) : m_Width(width), m_Height(height)
     {
+        m_TextureManager = TextureManager();
     }
 
     void RenderingHandler::RenderText(
@@ -15,5 +16,16 @@ namespace OpenGameCore
     )
     {
         DrawText(text, posX, posY, fontSize, GetColor(colorHexValue));
+    }
+
+    void RenderingHandler::RenderSprite(const Texture2D& texture, const Vector2 position, const unsigned int colorHexValue)
+    {
+        // TODO Use Abstract Entity to work with texture indirectly
+        DrawTextureV(texture, position, GetColor(colorHexValue));
+    }
+
+    TextureManager& RenderingHandler::GetTextureManager()
+    {
+        return m_TextureManager;
     }
 } // OpenGameCore
