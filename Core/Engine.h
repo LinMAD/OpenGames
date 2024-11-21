@@ -58,7 +58,7 @@ namespace OpenGameCore
         /**
          * @return RenderingHandler.
          */
-        static RenderingHandler& GetRendingHandler() { return Get().m_RenderingHandler; };
+        static std::shared_ptr<RenderingHandler> GetRendingHandler() { return Get().m_RenderingHandler; };
 
     private:
         const float m_DeltaTime = 0.01667f;
@@ -67,7 +67,7 @@ namespace OpenGameCore
         float m_Time = 0.0f;
 
         EngineConfig m_Config;
-        RenderingHandler m_RenderingHandler;
+        std::shared_ptr<RenderingHandler> m_RenderingHandler;
         std::shared_ptr<AbstractGameInstance> m_Game;
         Image m_Icon{};
     };

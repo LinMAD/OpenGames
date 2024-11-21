@@ -10,7 +10,13 @@ add_executable(${PROJECT_NAME}
         main.cpp
 
         Source/Game/ExampleGame.cpp
+
         Source/Entity/Floppy.cpp
+
+        Source/Menu/MainMenu.cpp
+        Source/Menu/MainMenu.h
+        Source/Menu/AboutMenu.cpp
+        Source/Menu/AboutMenu.h
 )
 # Get the sources together
 #

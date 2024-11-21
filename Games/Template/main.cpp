@@ -1,5 +1,4 @@
 #include <memory>
-
 #include "Engine.h"
 
 #include "Source/Game/ExampleGame.h"

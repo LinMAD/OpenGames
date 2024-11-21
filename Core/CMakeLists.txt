@@ -6,7 +6,12 @@ project(OpenGameCore)
 add_library(${PROJECT_NAME} STATIC
         Engine.cpp
         Engine.h
+        EngineComponent.cpp
+        EngineComponent.h
 
+        Entity/AbstractEntity.h
+
+        Game/AbstractGameInstance.cpp
         Game/AbstractGameInstance.h
 
         Graphics/RenderingHandler.cpp
@@ -14,7 +19,7 @@ add_library(${PROJECT_NAME} STATIC
         Graphics/TextureManager.cpp
         Graphics/TextureManager.h
 
-        Entity/AbstractEntity.h
+        UI/AbstractMenu.h
 )
 # ----------------------------------------------------------------------
 # raylib dependency

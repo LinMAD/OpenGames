@@ -1,4 +1,6 @@
 #pragma once
+#include "EngineComponent.h"
+#include "UI/AbstractMenu.h"
 
 namespace OpenGameCore
 {
@@ -8,18 +10,24 @@ namespace OpenGameCore
      *        concrete game implementations to define their specific logic
      *        and interactions with the application.
      */
-    class AbstractGameInstance
+    class AbstractGameInstance : public EngineComponent
     {
     public:
-        virtual ~AbstractGameInstance() = default;
+        ~AbstractGameInstance() override;
+        void OnUpdate(float deltaTime) override;
+        void OnRender() override;
 
-        /***
-         * @brief Called inside Engine when update must be done.
-         */
-        virtual void OnUpdate(float deltaTime) = 0;
-        /***
-         * @brief Called inside Engine when screen render will be called.
-         */
-        virtual void OnRender() = 0;
+        template<typename T>
+        void SetActiveMenu(std::shared_ptr<T> menu)
+        {
+            m_ActiveMenu = menu;
+        }
+        template<typename T>
+        std::shared_ptr<T> GetActiveMenu()
+        {
+           return m_ActiveMenu;
+        }
+    protected:
+        std::shared_ptr<AbstractMenu> m_ActiveMenu;
     };
 } // OpenGameCore

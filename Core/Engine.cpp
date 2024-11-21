@@ -7,10 +7,10 @@ namespace OpenGameCore
 {
     static Engine* s_Instance = nullptr;
 
-    Engine::Engine(EngineConfig cfg)
-        : m_Config(std::move(cfg)), m_RenderingHandler(cfg.Width, cfg.Height)
+    Engine::Engine(EngineConfig cfg): m_Config(std::move(cfg))
     {
         s_Instance = this;
+        m_RenderingHandler = std::make_shared<RenderingHandler>(cfg.Width, cfg.Height);
     }
 
     Engine::~Engine()
@@ -60,7 +60,7 @@ namespace OpenGameCore
         ClearBackground(RAYWHITE);
         if (m_Config.DisplayFPS)
         {
-            GetRendingHandler().RenderText(
+            GetRendingHandler()->RenderText(
                 TextFormat("FPS: %i", GetFPS()), 5, 0, 20, 0xcc33ff
             );
         }

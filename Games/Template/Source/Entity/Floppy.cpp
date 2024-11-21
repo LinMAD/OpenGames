@@ -6,12 +6,9 @@ namespace TemplateGame
 {
     Floppy::Floppy(): m_TextureFloppy()
     {
-        OpenGameCore::Engine::GetRendingHandler().GetTextureManager().AddNewTexture(
-            m_TextureId,
-            "assets/textures/og_floppy_alpha.png"
-        );
+        GetTextureManager()->AddNewTexture(m_TextureId, "assets/textures/og_floppy_alpha.png");
 
-        m_TextureFloppy = &OpenGameCore::Engine::GetRendingHandler().GetTextureManager().GetTexture(m_TextureId);
+        m_TextureFloppy = &GetTextureManager()->GetTexture(m_TextureId);
         m_Position = GetMousePosition();
 
         m_Speed.x = static_cast<float>(GetRandomValue(-250, 250)) / 60.0f;
@@ -23,8 +20,10 @@ namespace TemplateGame
         m_Color =  (0xFF << 24) | (r << 16) | (g << 8) | b;
     }
 
-    void Floppy::OnUpdate(const float delta)
+    void Floppy::OnUpdate(const float deltaTime)
     {
+        EngineComponent::OnUpdate(deltaTime);
+
         m_Position.x += m_Speed.x;
         m_Position.y += m_Speed.y;
 
@@ -39,6 +38,8 @@ namespace TemplateGame
 
     void Floppy::OnRender()
     {
-        OpenGameCore::Engine::GetRendingHandler().RenderSprite(*m_TextureFloppy, m_Position, m_Color);
+        EngineComponent::OnRender();
+
+        GetRenderer()->RenderSprite(*m_TextureFloppy, m_Position, m_Color);
     }
 } // TemplateGame

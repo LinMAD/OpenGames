@@ -1,7 +1,6 @@
 #pragma once
 
 #include "TextureManager.h"
-#include "Entity/AbstractEntity.h"
 
 namespace OpenGameCore
 {
@@ -39,12 +38,12 @@ namespace OpenGameCore
         /**
          * @return TextureManager
          */
-        TextureManager& GetTextureManager();
+        std::shared_ptr<TextureManager> GetTextureManager();
 
     private:
         int m_Width = 0;
         int m_Height = 0;
 
-        TextureManager m_TextureManager;
+        std::shared_ptr<TextureManager> m_TextureManager;
     };
 } // OpenGameCore

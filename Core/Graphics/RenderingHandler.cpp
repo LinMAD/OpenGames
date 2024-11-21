@@ -4,7 +4,7 @@ namespace OpenGameCore
 {
     RenderingHandler::RenderingHandler(const int width, const int height) : m_Width(width), m_Height(height)
     {
-        m_TextureManager = TextureManager();
+        m_TextureManager = std::make_shared<TextureManager>();
     }
 
     void RenderingHandler::RenderText(
@@ -24,7 +24,7 @@ namespace OpenGameCore
         DrawTextureV(texture, position, GetColor(colorHexValue));
     }
 
-    TextureManager& RenderingHandler::GetTextureManager()
+    std::shared_ptr<TextureManager> RenderingHandler::GetTextureManager()
     {
         return m_TextureManager;
     }

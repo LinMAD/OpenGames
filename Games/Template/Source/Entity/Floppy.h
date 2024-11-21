@@ -9,15 +9,15 @@ namespace TemplateGame
     public:
         explicit Floppy();
 
-        void OnUpdate(float delta) override;
+        void OnUpdate(float deltaTime) override;
         void OnRender() override;
 
     private:
         const std::string m_TextureId = "Floppy";
         const Texture2D* m_TextureFloppy;
 
-        Vector2 m_Position;
-        Vector2 m_Speed;
+        Vector2 m_Position{};
+        Vector2 m_Speed{};
         unsigned int m_Color;
     };
 } // TemplateGame
