@@ -1,6 +1,7 @@
 #include "TextureManager.h"
 
 #include <iostream>
+#include <ranges>
 
 namespace OpenGameCore
 {
@@ -11,8 +12,8 @@ namespace OpenGameCore
 
     TextureManager::~TextureManager()
     {
-        for (const auto& texturePair : m_Textures) {
-            UnloadTexture(texturePair.second);
+        for (const auto& texture : m_Textures | std::views::values) {
+            UnloadTexture(texture);
         }
 
         m_Textures.clear();

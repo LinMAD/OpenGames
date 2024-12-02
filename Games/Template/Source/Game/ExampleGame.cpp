@@ -8,6 +8,10 @@ namespace TemplateGame
     ExampleGame::ExampleGame()
     {
         SetActiveMenu<MainMenu>(std::make_shared<MainMenu>(*this));
+
+        // TODO (LinMAD): Move scene to engine
+        m_Scene = OpenGameCore::Scene();
+        m_Scene.ToggleIsPaused();
     }
 
     void ExampleGame::OnUpdate(const float deltaTime)
@@ -15,24 +19,26 @@ namespace TemplateGame
         AbstractGameInstance::OnUpdate(deltaTime);
         if (m_ActiveMenu) return;
 
-        // TODO Think how to separate UI form Game logic update
         if (IsKeyPressed(KEY_ESCAPE))
         {
             SetActiveMenu<MainMenu>(std::make_shared<MainMenu>(*this));
             return;
         }
 
-        if (IsMouseButtonDown(MOUSE_LEFT_BUTTON))
+        if (!m_Scene.IsPaused())
         {
-            // Create more floppy disks :D
-            for (int i = 0; i < 100; i++)
+            if (IsMouseButtonDown(MOUSE_LEFT_BUTTON))
             {
-                m_ActorsFloppy.emplace_back(Floppy());
+                // Create more floppy disks :D
+                for (int i = 0; i < 100; i++)
+                {
+                    m_FloppyCount++;
+                    m_Scene.CreateEntity<Floppy>(std::format("floppy-{}", i));
+                }
             }
-        }
 
-        for (auto& act: m_ActorsFloppy) {
-            act.OnUpdate(deltaTime);
+            // TODO (LinMAD): Move scene to engine
+            m_Scene.OnUpdate(deltaTime);
         }
     }
 
@@ -50,15 +56,16 @@ namespace TemplateGame
             0xff0000d3
         );
         GetRenderer()->RenderText(TextFormat(
-            "Actors: %i", m_ActorsFloppy.size()),
+            "Actors: %i", m_FloppyCount),
             500,
             20,
             30,
             0xff00ffd3
         );
 
-        for (auto& act: m_ActorsFloppy) {
-            act.OnRender();
+        if (!m_Scene.IsPaused())
+        {
+            m_Scene.OnRender();
         }
     }
 } // namespace TemplateGame

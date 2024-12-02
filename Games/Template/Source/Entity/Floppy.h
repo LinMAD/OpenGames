@@ -1,20 +1,22 @@
 #pragma once
-#include "Entity/AbstractEntity.h"
+#include "Entity/Entity.h"
 #include "Graphics/TextureManager.h"
 
 namespace TemplateGame
 {
-    class Floppy final : public OpenGameCore::AbstractEntity
+    class Floppy final : public OpenGameCore::Entity
     {
     public:
-        explicit Floppy();
+        Floppy();
+        Floppy(const std::string& tagName, const std::string& uuid);
 
+        void Init();
         void OnUpdate(float deltaTime) override;
         void OnRender() override;
 
     private:
         const std::string m_TextureId = "Floppy";
-        const Texture2D* m_TextureFloppy;
+        Texture2D* m_TextureFloppy;
 
         Vector2 m_Position{};
         Vector2 m_Speed{};

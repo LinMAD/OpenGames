@@ -3,6 +3,7 @@
 #include "Game/AbstractGameInstance.h"
 
 #include "../Entity/Floppy.h"
+#include "Scene/Scene.h"
 
 namespace TemplateGame
 {
@@ -18,6 +19,7 @@ namespace TemplateGame
         void OnUpdate(float deltaTime) override;
         void OnRender() override;
     private:
-        std::list<Floppy> m_ActorsFloppy;
+        unsigned int m_FloppyCount = 0;
+        OpenGameCore::Scene m_Scene;
     };
 }

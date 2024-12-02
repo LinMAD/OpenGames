@@ -4,7 +4,18 @@
 
 namespace TemplateGame
 {
-    Floppy::Floppy(): m_TextureFloppy()
+    Floppy::Floppy(): m_TextureFloppy(nullptr)
+    {
+        Init();
+    }
+
+    Floppy::Floppy(const std::string& tagName, const std::string& uuid)
+        : Entity(tagName, uuid), m_TextureFloppy(nullptr), m_Color(0)
+    {
+        Init();
+    }
+
+    void Floppy::Init()
     {
         GetTextureManager()->AddNewTexture(m_TextureId, "assets/textures/og_floppy_alpha.png");
 
@@ -17,7 +28,7 @@ namespace TemplateGame
         const int r = GetRandomValue(50, 240);
         const int g = GetRandomValue(50, 240);
         const int b = GetRandomValue(50, 240);
-        m_Color =  (0xFF << 24) | (r << 16) | (g << 8) | b;
+        m_Color = (0xFF << 24) | (r << 16) | (g << 8) | b;
     }
 
     void Floppy::OnUpdate(const float deltaTime)

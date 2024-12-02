@@ -9,7 +9,8 @@ add_library(${PROJECT_NAME} STATIC
         EngineComponent.cpp
         EngineComponent.h
 
-        Entity/AbstractEntity.h
+        Entity/Entity.cpp
+        Entity/Entity.h
 
         Game/AbstractGameInstance.cpp
         Game/AbstractGameInstance.h
@@ -20,6 +21,13 @@ add_library(${PROJECT_NAME} STATIC
         Graphics/TextureManager.h
 
         UI/AbstractMenu.h
+
+        Scene/Scene.cpp
+        Scene/Scene.h
+
+        Generators/UUID.cpp
+        Generators/UUID.h
+
 )
 # ----------------------------------------------------------------------
 # raylib dependency
