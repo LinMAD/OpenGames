@@ -22,7 +22,7 @@
     <tr>
         <td>
             <b>🧙</b>
-            <a href="https://github.com/LinMAD/OpenGames/tree/old-master">Old branch with same games made with SDL2 and SFML</a>
+            <a href="https://github.com/LinMAD/OpenGames/tree/old-master">Old branch with "games" made with SDL2 and SFML</a>
         </td>
     </tr>
   </tbody>
@@ -33,14 +33,12 @@
 <table>
     <tr>
         <td>
-            <img src="Docs/examples/template_game.gif" alt="template game"/>
+            <img src="Docs/examples/demo_game.gif" alt="template game"/>
         </td>
         <td>
             <p>
-                Simple template that allows to generate by mouse Floppy Disks on the screen,
-                replica of raylib bunnymark example.
+                Simple <a href="Games/Demo">Demo</a> that demonstration implemented features of <a href="Core">Core</a>
             </p>
-            <a href="Games/Template">Game template</a>
         </td>
     </tr>
 </table>

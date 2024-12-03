@@ -10,7 +10,6 @@ namespace OpenGameCore
     class Entity : public EngineComponent
     {
     public:
-        Entity() = default;
         Entity(const std::string& tagName, const std::string& uuid);
 
         /**
@@ -27,7 +26,7 @@ namespace OpenGameCore
         /**
          * @return string
          */
-        std::string GetUUID() const { return m_UUID; }
+        [[nodiscard]] std::string GetUUID() const { return m_UUID; }
 
     protected:
         std::string m_Tag;

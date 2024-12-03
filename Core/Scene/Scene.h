@@ -1,4 +1,7 @@
 #pragma once
+
+#include <ranges>
+
 #include "EngineComponent.h"
 #include "Entity/Entity.h"
 #include "Generators/UUID.h"
@@ -19,7 +22,7 @@ namespace OpenGameCore
         void OnRender() override;
 
         /**
-         * @tparam T Any Entity implementation
+         * @tparam T Any Entity implementation.
          * @param name tag
          * @return Entity
          */
@@ -33,7 +36,47 @@ namespace OpenGameCore
         }
 
         /**
-         * @brief Remove given entity from scene
+         * Find Entity located in the scene.
+         * @tparam T
+         * @param name
+         * @return Entity
+         */
+        template <typename T>
+        std::shared_ptr<T> FindEntityByName(const std::string_view name)
+        {
+            for (auto entity : m_Entities | std::views::values)
+            {
+                if (entity != nullptr && entity->GetTag() == name)
+                {
+                    return std::dynamic_pointer_cast<T>(entity);
+                }
+            }
+
+            return {};
+        }
+
+        /**
+         * Find Entity located in the scene.
+         * @tparam T
+         * @param GUID
+         * @return Entity
+         */
+        template <typename T>
+        std::shared_ptr<T> FindEntityByGUID(const std::string_view GUID)
+        {
+            for (auto entity : m_Entities)
+            {
+                if (entity.first == GUID)
+                {
+                    return std::dynamic_pointer_cast<T>(entity.second);
+                }
+            }
+
+            return {};
+        }
+
+        /**
+         * @brief Remove given entity from scene.
          * @param entity
          */
         template <typename T>
