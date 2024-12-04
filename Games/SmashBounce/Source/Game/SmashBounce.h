@@ -1,5 +1,8 @@
 #pragma once
+
 #include "Game/AbstractGameInstance.h"
+
+#include "../Scene/ArenaScene.h"
 
 namespace SmashBounce
 {
@@ -12,10 +15,8 @@ namespace SmashBounce
         void OnRender() override;
 
     private:
-        const char* m_Text = "This is Template Game";
+        const std::string m_TagPlayer = "Player";
 
-        int m_TextHeight;
-        int m_TextWidth;
-        Vector2 m_TextPosition{};
+        ArenaScene m_SceneArena;
     };
 } // Template

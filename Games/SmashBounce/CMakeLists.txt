@@ -10,6 +10,10 @@ add_executable(${PROJECT_NAME}
         main.cpp
 
         Source/Game/SmashBounce.cpp
+        Source/Entity/Paddle.cpp
+        Source/Entity/Paddle.h
+        Source/Scene/ArenaScene.cpp
+        Source/Scene/ArenaScene.h
 )
 # Get the sources together
 #
