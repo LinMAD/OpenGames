@@ -2,7 +2,8 @@
 
 namespace OpenGameCore
 {
-    RenderingHandler::RenderingHandler(const int width, const int height) : m_Width(width), m_Height(height)
+    RenderingHandler::RenderingHandler(const int width, const int height, const int scale)
+        : m_Width(width), m_Height(height), m_Scale(scale)
     {
         m_TextureManager = std::make_shared<TextureManager>();
     }

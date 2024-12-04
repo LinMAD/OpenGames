@@ -25,6 +25,12 @@
             <a href="https://github.com/LinMAD/OpenGames/tree/old-master">Old branch with "games" made with SDL2 and SFML</a>
         </td>
     </tr>
+    <tr>
+        <td>
+            <b>💾</b>
+            <a href="Games/Template">Game Template</a>
+        </td>
+    </tr>
   </tbody>
 </table>
 

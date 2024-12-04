@@ -10,7 +10,7 @@ namespace OpenGameCore
     Engine::Engine(EngineConfig cfg): m_Config(std::move(cfg))
     {
         s_Instance = this;
-        m_RenderingHandler = std::make_shared<RenderingHandler>(cfg.Width, cfg.Height);
+        m_RenderingHandler = std::make_shared<RenderingHandler>(cfg.Width, cfg.Height, cfg.Scale);
     }
 
     Engine::~Engine()
@@ -22,7 +22,11 @@ namespace OpenGameCore
     {
         m_Game = game;
 
-        InitWindow(m_Config.Width * m_Config.Scale, m_Config.Height * m_Config.Scale, m_Config.Title.c_str());
+        InitWindow(
+            m_Config.Width * m_Config.Scale,
+            m_Config.Height * m_Config.Scale,
+            m_Config.Title.c_str()
+        );
 
         SetExitKey(0);
         SetTargetFPS(60);

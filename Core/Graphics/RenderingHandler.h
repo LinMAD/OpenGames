@@ -11,7 +11,7 @@ namespace OpenGameCore
     class RenderingHandler
     {
     public:
-        RenderingHandler(int width, int height);
+        RenderingHandler(int width, int height, int scale);
         ~RenderingHandler() = default;
 
         /**
@@ -34,6 +34,10 @@ namespace OpenGameCore
          */
         void RenderSprite(const Texture2D& texture, Vector2 position, unsigned int colorHexValue);
 
+        [[nodiscard]] int GetWidth() const { return m_Width; }
+        [[nodiscard]] int GetHeight() const { return m_Height; }
+        [[nodiscard]] int GetScale() const { return m_Scale; }
+
     public:
         /**
          * @return TextureManager
@@ -41,8 +45,9 @@ namespace OpenGameCore
         std::shared_ptr<TextureManager> GetTextureManager();
 
     private:
-        int m_Width = 0;
-        int m_Height = 0;
+        int m_Width = 100;
+        int m_Height = 100;
+        int m_Scale = 1;
 
         std::shared_ptr<TextureManager> m_TextureManager;
     };
