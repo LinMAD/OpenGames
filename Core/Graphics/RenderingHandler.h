@@ -34,8 +34,8 @@ namespace OpenGameCore
          */
         void RenderSprite(const Texture2D& texture, Vector2 position, unsigned int colorHexValue);
 
-        [[nodiscard]] int GetWidth() const { return m_Width; }
-        [[nodiscard]] int GetHeight() const { return m_Height; }
+        [[nodiscard]] float GetWidth() const { return static_cast<float>(m_Width * m_Scale); }
+        [[nodiscard]] float GetHeight() const { return  static_cast<float>(m_Height * m_Scale); }
         [[nodiscard]] int GetScale() const { return m_Scale; }
 
     public:

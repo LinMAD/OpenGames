@@ -4,16 +4,11 @@ namespace SmashBounce
 {
     Paddle::Paddle(const std::string& tagName, const std::string& uuid) : Entity(tagName, uuid)
     {
-        Init();
-    }
-
-    void Paddle::Init()
-    {
         m_PaddleRect = Rectangle{
-            static_cast<float>(GetRenderer()->GetWidth()) / 2 - 50,
-            static_cast<float>(GetRenderer()->GetHeight()) - 20,
+            GetRenderer()->GetWidth() / 2 - 50,
+            GetRenderer()->GetHeight() - 20,
             100,
-            10
+            50
         };
     }
 
@@ -21,15 +16,18 @@ namespace SmashBounce
     {
         Entity::OnUpdate(deltaTime);
 
-        { // Handle movement
+        {
+            // Handle movement
             const auto isMoveLeft = IsKeyDown(KEY_LEFT) || IsKeyDown(KEY_A);
             const auto isMoveRight = IsKeyDown(KEY_RIGHT) || IsKeyDown(KEY_D);
 
-            if (isMoveLeft && m_PaddleRect.x > 0) {
+            if (isMoveLeft && m_PaddleRect.x > 0)
+            {
                 m_PaddleRect.x -= m_PaddleSpeed * deltaTime;
             }
             // TODO (LinMAD): Investigate issue with right side inv wall
-            if (isMoveRight && m_PaddleRect.x + m_PaddleRect.width < static_cast<float>(GetRenderer()->GetWidth())) {
+            if (isMoveRight && m_PaddleRect.x + m_PaddleRect.width < GetRenderer()->GetWidth())
+            {
                 m_PaddleRect.x += m_PaddleSpeed * deltaTime;
             }
         }

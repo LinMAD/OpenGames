@@ -9,8 +9,8 @@ namespace Template
 
         const auto rend = GetRenderer();
         m_TextPosition = Vector2{
-            static_cast<float>(rend->GetWidth() * rend->GetScale() - m_TextWidth) / 3.0f,
-            static_cast<float>(rend->GetHeight() * rend->GetScale() - m_TextHeight) / 2.0f
+            rend->GetWidth() - m_TextWidth / 3.0f,
+            rend->GetHeight() - m_TextHeight / 2.0f
         };
     }
 
