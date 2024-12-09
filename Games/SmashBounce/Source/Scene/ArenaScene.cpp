@@ -1,6 +1,6 @@
 #include "ArenaScene.h"
 
-#include "../Game/SmashBounce.h"
+#include "../Game/SmashBounceGame.h"
 
 namespace SmashBounce
 {

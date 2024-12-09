@@ -34,6 +34,17 @@ namespace OpenGameCore
         DrawText(text, posX, posY, fontSize, GetColor(colorHexValue));
     }
 
+    void RenderingHandler::RenderTextWithFont(
+        const char* text,
+        const int posX,
+        const int posY,
+        const unsigned int fontSize,
+        const unsigned int colorHexValue
+    )
+    {
+        DrawTextEx(m_CustomFont, text, Vector2(posX, posY), fontSize, 0.0f, GetColor(colorHexValue));
+    }
+
     void RenderingHandler::RenderSprite(const Texture2D& texture, const Vector2 position, const unsigned int colorHexValue)
     {
         // TODO Use Abstract Entity to work with texture indirectly

@@ -27,9 +27,20 @@ namespace OpenGameCore
          * @param posX
          * @param posY
          * @param fontSize
-        * @param colorHexValue RRGGBBAA (RR (Red) GG (Green) BB (Blue) AA (Alpha)
+         * @param colorHexValue RRGGBBAA (RR (Red) GG (Green) BB (Blue) AA (Alpha)
          */
         void RenderText(const char* text, int posX, int posY, unsigned int fontSize, unsigned int colorHexValue);
+
+        /**
+         * Rendering simple text on the screen with preloaded custom font.
+         *
+         * @param text
+         * @param posX
+         * @param posY
+         * @param fontSize
+         * @param colorHexValue RRGGBBAA (RR (Red) GG (Green) BB (Blue) AA (Alpha)
+         */
+        void RenderTextWithFont(const char* text, int posX, int posY, unsigned int fontSize, unsigned int colorHexValue);
 
         /**
          * Render simple sprite.

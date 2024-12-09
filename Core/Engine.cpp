@@ -60,11 +60,10 @@ namespace OpenGameCore
     {
         BeginDrawing();
         ClearBackground(RAYWHITE);
+
         if (m_Config.DisplayFPS)
         {
-            GetRendingHandler()->RenderText(
-                TextFormat("FPS: %i", GetFPS()), 5, 0, 20, 0xcc33ff
-            );
+            DrawFPS(5, 0);
         }
 
         m_Game->OnRender();

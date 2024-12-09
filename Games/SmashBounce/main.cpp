@@ -2,7 +2,7 @@
 
 #include "Engine.h"
 
-#include "Source/Game/SmashBounce.h"
+#include "Source/Game/SmashBounceGame.h"
 
 int main(void)
 {

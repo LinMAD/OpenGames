@@ -1,6 +1,7 @@
-#include "SmashBounce.h"
+#include "SmashBounceGame.h"
 
-// TODO (LinMAD): Add UI
+#include "../Menu/GameOverMenu.h"
+
 // TODO (LinMAD): Add Score system + add speed to the ball
 // TODO (LinMAD): Replace shapes by textures
 
@@ -8,20 +9,10 @@ namespace SmashBounce
 {
     SmashBounceGame::SmashBounceGame()
     {
-        const auto rend = GetRenderer();
-        rend->AddFont("assets/fonts/GAME_glm.ttf");
+        GetRenderer()->AddFont("assets/fonts/GAME_glm.ttf");
 
-        m_DefaultTextHeight = 60;
-        m_TextWidth = MeasureText(m_Text, m_DefaultTextHeight);
-        m_TextPosition = Vector2{
-            (rend->GetWidthWithScale() - static_cast<float>(m_TextWidth)) / 2.0f,
-            (rend->GetHeightWithScale() - static_cast<float>(m_DefaultTextHeight)) / 2.0f
-        };
-
-        m_SceneArena = new ArenaScene(*this);
-
-        // TODO (LinMAD): Add UI to start game
-        m_SceneArena->ToggleIsPaused();
+        // TODO ADD Simple Main menu
+        Restart();
     }
 
     SmashBounceGame::~SmashBounceGame()
@@ -35,19 +26,15 @@ namespace SmashBounce
 
         // Game Pause or Game over
         {
+            if (m_ActiveMenu) return;
+
             if (m_SceneArena->IsPaused())
             {
                 return;
             }
             if (m_SceneArena->IsGameOver())
             {
-                GetRenderer()->RenderText(
-                    m_Text,
-                    static_cast<int>(m_TextPosition.x),
-                    static_cast<int>(m_TextPosition.y),
-                    m_DefaultTextHeight,
-                    0x722F37FF
-                );
+                SetActiveMenu<GameOverMenu>(std::make_shared<GameOverMenu>(*this));
                 return;
             }
         }
@@ -63,6 +50,15 @@ namespace SmashBounce
     {
         AbstractGameInstance::OnRender();
 
+        if (m_ActiveMenu) return;
+
         m_SceneArena->OnRender();
+    }
+
+    void SmashBounceGame::Restart()
+    {
+        m_ActiveMenu = nullptr;
+        m_SceneArena = new ArenaScene(*this);
+        m_SceneArena->ToggleIsPaused();
     }
 } // Template

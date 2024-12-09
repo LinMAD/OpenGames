@@ -9,7 +9,8 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 add_executable(${PROJECT_NAME}
         main.cpp
 
-        Source/Game/SmashBounce.cpp
+        Source/Game/SmashBounceGame.cpp
+        Source/Game/SmashBounceGame.h
 
         Source/Scene/ArenaScene.cpp
         Source/Scene/ArenaScene.h
@@ -20,6 +21,9 @@ add_executable(${PROJECT_NAME}
         Source/Entity/Ball.h
         Source/Entity/BlockSimple.cpp
         Source/Entity/BlockSimple.h
+
+        Source/Menu/GameOverMenu.cpp
+        Source/Menu/GameOverMenu.h
 )
 # Get the sources together
 #
