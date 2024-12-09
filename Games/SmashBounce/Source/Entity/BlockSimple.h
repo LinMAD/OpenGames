@@ -1,4 +1,5 @@
 #pragma once
+
 #include "Entity/Entity.h"
 
 namespace SmashBounce
@@ -16,7 +17,7 @@ namespace SmashBounce
         void SetAlive(const bool alive) { m_IsAlive = alive; }
         bool IsAlive() const { return m_IsAlive; }
 
-        Rectangle GetShape() const { return m_Rectangle; }
+        [[nodiscard]] Rectangle GetShape() const { return m_Rectangle; }
 
     private:
         const float m_BrickWidth = 75.0f;

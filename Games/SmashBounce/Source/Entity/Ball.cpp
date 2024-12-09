@@ -6,7 +6,7 @@ namespace SmashBounce
     {
         const auto render = GetRenderer();
 
-        m_Position = Vector2(static_cast<float>(render->GetWidth()) / 2, static_cast<float>(render->GetHeight()) / 2);
+        m_Position = Vector2(static_cast<float>(render->GetWidthWithScale()) / 2, static_cast<float>(render->GetHeightWithScale()) / 2);
         m_Speed = Vector2(200.0f, -200.0f);
         m_Radius = 8.0f;
     }
@@ -19,11 +19,11 @@ namespace SmashBounce
         m_Position.y += m_Speed.y * deltaTime;
 
         { // Ball collision with screen
-            if (m_Position.x <= m_Radius || m_Position.x >= GetRenderer()->GetWidth() - m_Radius)
+            if (m_Position.x <= m_Radius || m_Position.x >= GetRenderer()->GetWidthWithScale() - m_Radius)
             {
                 m_Speed.x *= -1;
             }
-            if (m_Position.y <= m_Radius || m_Position.y >= GetRenderer()->GetHeight())
+            if (m_Position.y <= m_Radius || m_Position.y >= GetRenderer()->GetHeightWithScale())
             {
                 m_Speed.y *= -1;
             }

@@ -8,6 +8,21 @@ namespace OpenGameCore
         m_TextureManager = std::make_shared<TextureManager>();
     }
 
+    RenderingHandler::~RenderingHandler()
+    {
+        UnloadFont(m_CustomFont);
+    }
+
+    void RenderingHandler::AddFont(const std::string& filePath)
+    {
+        // TODO (LinMAD): If custom found not found, can be used default?
+        if (const std::filesystem::path fontPath{filePath}; !std::filesystem::exists(fontPath)) {
+            throw std::runtime_error("Font file not found: " + fontPath.string());
+        }
+
+        m_CustomFont = LoadFont(filePath.c_str());
+    }
+
     void RenderingHandler::RenderText(
         const char* text,
         const int posX,

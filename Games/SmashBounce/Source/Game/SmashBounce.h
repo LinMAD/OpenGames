@@ -2,14 +2,10 @@
 
 #include "Game/AbstractGameInstance.h"
 
-#include "../Entity/Ball.h"
-#include "../Entity/BlockSimple.h"
 #include "../Scene/ArenaScene.h"
 
 namespace SmashBounce
 {
-    class Paddle;
-
     class SmashBounceGame final : public OpenGameCore::AbstractGameInstance
     {
     public:
@@ -19,18 +15,16 @@ namespace SmashBounce
         void OnUpdate(float deltaTime) override;
         void OnRender() override;
 
-    private:
-        bool m_IsGameOver = false;
-        const int m_BrickRows = 5;
-        const int m_BrickColumns = 11;
-
+    public:
         const std::string m_TagPlayer = "Player";
-        const std::string m_TagBall = "Ball";
+        const std::string m_TagPlayerBall = "PlayerBall";
 
-        ArenaScene m_SceneArena;
+    private:
+        const char* m_Text = "Game Over";
+        int m_DefaultTextHeight = 60;
+        int m_TextWidth = 0;
+        Vector2 m_TextPosition{};
 
-        std::shared_ptr<Paddle> m_Player;
-        std::shared_ptr<Ball> m_PlayersBall;
-        std::vector<std::shared_ptr<BlockSimple>> m_BricksCollection;
+        ArenaScene* m_SceneArena{};
     };
 } // Template

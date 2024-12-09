@@ -11,6 +11,12 @@ namespace OpenGameCore
     {
         s_Instance = this;
         m_RenderingHandler = std::make_shared<RenderingHandler>(cfg.Width, cfg.Height, cfg.Scale);
+
+        InitWindow(
+            m_Config.Width * m_Config.Scale,
+            m_Config.Height * m_Config.Scale,
+            m_Config.Title.c_str()
+        );
     }
 
     Engine::~Engine()
@@ -22,12 +28,6 @@ namespace OpenGameCore
     {
         m_Game = game;
 
-        InitWindow(
-            m_Config.Width * m_Config.Scale,
-            m_Config.Height * m_Config.Scale,
-            m_Config.Title.c_str()
-        );
-
         SetExitKey(0);
         SetTargetFPS(60);
 
@@ -38,14 +38,12 @@ namespace OpenGameCore
 
         while (!WindowShouldClose())
         {
-            m_Time += m_DeltaTime;
+            const double currentTime = GetTime();
+            m_DeltaTime = currentTime - m_LastTime;
+            m_LastTime = currentTime;
+
             OnUpdate();
             OnRender();
-
-            while (GetTime() - m_LastTime > 1.0)
-            {
-                m_LastTime++;
-            }
         }
 
         CloseAudioDevice();

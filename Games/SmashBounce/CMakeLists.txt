@@ -23,12 +23,14 @@ add_executable(${PROJECT_NAME}
 )
 # Get the sources together
 #
-# Find assets
-file(GLOB game_assets ${CMAKE_CURRENT_SOURCE_DIR}/assets/*)
-list(APPEND game_assets ${game_assets})
-#
-# Copy all the resources
-file(COPY ${game_assets} DESTINATION "assets/")
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/assets DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+add_custom_target(${PROJECT_NAME}_CopyAssets ALL
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_CURRENT_SOURCE_DIR}/assets
+        ${CMAKE_CURRENT_BINARY_DIR}/assets
+        DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/assets
+)
+add_dependencies(${PROJECT_NAME} ${PROJECT_NAME}_CopyAssets)
 #
 # Link game project with OpenGameCore
 target_link_libraries(${PROJECT_NAME} PRIVATE OpenGameCore)

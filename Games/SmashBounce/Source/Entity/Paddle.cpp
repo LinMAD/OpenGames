@@ -5,8 +5,8 @@ namespace SmashBounce
     Paddle::Paddle(const std::string& tagName, const std::string& uuid) : Entity(tagName, uuid)
     {
         m_PaddleRect = Rectangle{
-            GetRenderer()->GetWidth() / 2 - 50,
-            GetRenderer()->GetHeight() - 20,
+            GetRenderer()->GetWidthWithScale() / 2 - 50,
+            GetRenderer()->GetHeightWithScale() - 20,
             100,
             50
         };
@@ -26,7 +26,7 @@ namespace SmashBounce
                 m_PaddleRect.x -= m_PaddleSpeed * deltaTime;
             }
             // TODO (LinMAD): Investigate issue with right side inv wall
-            if (isMoveRight && m_PaddleRect.x + m_PaddleRect.width < GetRenderer()->GetWidth())
+            if (isMoveRight && m_PaddleRect.x + m_PaddleRect.width < GetRenderer()->GetWidthWithScale())
             {
                 m_PaddleRect.x += m_PaddleSpeed * deltaTime;
             }

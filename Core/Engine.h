@@ -61,10 +61,9 @@ namespace OpenGameCore
         static std::shared_ptr<RenderingHandler> GetRendingHandler() { return Get().m_RenderingHandler; };
 
     private:
-        const float m_DeltaTime = 0.01667f;
+        double m_DeltaTime = 0.0;   // Time elapsed since the last frame
+        double m_LastTime = 0.0;    // Tracks the last frame's timestamp
 
-        double m_LastTime = 0;
-        float m_Time = 0.0f;
 
         EngineConfig m_Config;
         std::shared_ptr<RenderingHandler> m_RenderingHandler;
