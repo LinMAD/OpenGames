@@ -32,7 +32,7 @@ namespace TemplateGame {
             GetRenderer()->RenderText(text[i], 150 + 2, 10 + i * 30 + 2, 30, 0xff);
         }
 
-        GetRenderer()->RenderText(m_OptionChoice, 350 + 3, 350, 50, 0xffaf00ff);
-        GetRenderer()->RenderText(m_OptionChoice, 350, 350 + 3, 50, 0xff);
+        GetRenderer()->RenderText(M_OPTION_CHOICE, 350 + 3, 350, 50, 0xffaf00ff);
+        GetRenderer()->RenderText(M_OPTION_CHOICE, 350, 350 + 3, 50, 0xff);
     }
 } // TemplateGame

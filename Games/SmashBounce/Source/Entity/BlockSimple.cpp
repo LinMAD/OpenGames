@@ -21,10 +21,10 @@ namespace SmashBounce
     void BlockSimple::SetLeftCornerLocation(const Vector2 topLeftCorner)
     {
         m_Rectangle = Rectangle({
-            topLeftCorner.x * (m_BrickWidth + 5) + 10,
-            topLeftCorner.y *(m_BrickHeight + 5) + 50,
-            m_BrickWidth,
-            m_BrickHeight
+            topLeftCorner.x * (M_BRICK_WIDTH + 5) + 10,
+            topLeftCorner.y *(M_BRICK_HEIGHT + 5) + 50,
+            M_BRICK_WIDTH,
+            M_BRICK_HEIGHT
         });
     }
 } // SmashBounce

@@ -28,15 +28,15 @@ namespace SmashBounce
         }
 
     private:
+        const int M_BRICK_ROWS = 5;
+        const int M_BRICK_COLUMNS = 11;
+
         bool m_IsGameOver = false;
-        const int m_BrickRows = 5;
-        const int m_BrickColumns = 11;
 
         SmashBounceGame& m_Game;
 
         std::shared_ptr<Paddle> m_PlayersPaddle;
         std::shared_ptr<Ball> m_PlayersBall;
-
         std::vector<std::shared_ptr<BlockSimple>> m_BricksCollection;
     };
 } // SmashBounce

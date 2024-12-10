@@ -15,13 +15,13 @@ namespace SmashBounce
         void SetLeftCornerLocation(Vector2 topLeftCorner);
 
         void SetAlive(const bool alive) { m_IsAlive = alive; }
-        bool IsAlive() const { return m_IsAlive; }
+        [[nodiscard]] bool IsAlive() const { return m_IsAlive; }
 
         [[nodiscard]] Rectangle GetShape() const { return m_Rectangle; }
 
     private:
-        const float m_BrickWidth = 75.0f;
-        const float m_BrickHeight = 20.0f;
+        const float M_BRICK_WIDTH = 75.0f;
+        const float M_BRICK_HEIGHT = 20.0f;
         bool m_IsAlive = true;
 
         Rectangle m_Rectangle;

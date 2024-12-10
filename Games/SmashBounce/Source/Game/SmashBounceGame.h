@@ -17,8 +17,8 @@ namespace SmashBounce
 
         void Restart();
     public:
-        const std::string m_TagPlayer = "Player";
-        const std::string m_TagPlayerBall = "PlayerBall";
+        const std::string TAG_PLAYER = "Player";
+        const std::string TAG_PLAYER_BALL = "PlayerBall";
 
     private:
 

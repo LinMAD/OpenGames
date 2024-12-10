@@ -6,12 +6,12 @@ namespace SmashBounce
 {
     ArenaScene::ArenaScene(SmashBounceGame& game): m_Game(game)
     {
-        m_PlayersPaddle = CreateEntity<Paddle>(m_Game.m_TagPlayer);
-        m_PlayersBall = CreateEntity<Ball>(m_Game.m_TagPlayerBall);
+        m_PlayersPaddle = CreateEntity<Paddle>(m_Game.TAG_PLAYER);
+        m_PlayersBall = CreateEntity<Ball>(m_Game.TAG_PLAYER_BALL);
 
-        for (int i = 0; i < m_BrickRows; ++i)
+        for (int i = 0; i < M_BRICK_ROWS; ++i)
         {
-            for (int j = 0; j < m_BrickColumns; ++j)
+            for (int j = 0; j < M_BRICK_COLUMNS; ++j)
             {
                 const auto blockSimple = CreateEntity<BlockSimple>(
                     "BlockSimple_" + std::to_string(i) + "_" + std::to_string(j)

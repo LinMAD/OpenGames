@@ -42,7 +42,7 @@ namespace SmashBounce
         m_SceneArena->OnUpdate(deltaTime); // Update rest of the scene
 
         // Player lost a ball?
-        const auto playersBall = m_SceneArena->FindEntityByName<Ball>(m_TagPlayerBall);
+        const auto playersBall = m_SceneArena->FindEntityByName<Ball>(TAG_PLAYER_BALL);
         if (m_SceneArena->SetIsGameOver(playersBall->GetPosition().y > GetRenderer()->GetHeightWithScale())) return;
     }
 

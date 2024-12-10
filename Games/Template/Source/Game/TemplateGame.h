@@ -12,10 +12,10 @@ namespace Template
         void OnRender() override;
 
     private:
-        const char* m_Text = "This is Template Game";
+        const char* M_TITLE_TEXT = "This is Template Game";
 
-        int m_TextHeight;
-        int m_TextWidth;
-        Vector2 m_TextPosition{};
+        int m_TitleTextHeight;
+        int m_TitleTextWidth;
+        Vector2 m_TitleTextPosition{};
     };
 } // Template

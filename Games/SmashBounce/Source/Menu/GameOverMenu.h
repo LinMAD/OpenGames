@@ -17,12 +17,13 @@ namespace SmashBounce
         void OnRender() override;
 
     private:
-        const char* m_TitleText = "Game Over";
+        const char* M_OPTION_CHOICE = "- Retry -";
+
+        // Game over related
+        const char* M_TITLE_TEXT = "Game Over";
         int m_TitleTextHeight = 60;
         int m_TitleTextWidth = 0;
         Vector2 m_TitleTextPosition{};
-
-        const char* m_OptionChoice = "- Retry -";
 
         SmashBounceGame& m_Game;
     };

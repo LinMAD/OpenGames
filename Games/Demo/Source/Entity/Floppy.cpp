@@ -12,9 +12,9 @@ namespace TemplateGame
 
     void Floppy::Init()
     {
-        GetTextureManager()->AddNewTexture(m_TextureId, "assets/textures/og_floppy_alpha.png");
+        GetTextureManager()->AddNewTexture(M_TEXTURE_ID, "assets/textures/og_floppy_alpha.png");
 
-        m_TextureFloppy = &GetTextureManager()->GetTexture(m_TextureId);
+        m_TextureFloppy = &GetTextureManager()->GetTexture(M_TEXTURE_ID);
         m_Position = GetMousePosition();
 
         m_Speed.x = static_cast<float>(GetRandomValue(-250, 250)) / 60.0f;
@@ -51,7 +51,7 @@ namespace TemplateGame
 
     std::string Floppy::GetTextureID() const
     {
-        return m_TextureId;
+        return M_TEXTURE_ID;
     }
 
     Vector2 Floppy::GetPosition() const

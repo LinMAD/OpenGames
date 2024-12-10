@@ -16,7 +16,7 @@ namespace TemplateGame
         [[nodiscard]] std::string GetTextureID() const;
         [[nodiscard]] Vector2 GetPosition() const;
     private:
-        const std::string m_TextureId = "Floppy";
+        const std::string M_TEXTURE_ID = "Floppy";
         Texture2D* m_TextureFloppy;
 
         Vector2 m_Position{};
