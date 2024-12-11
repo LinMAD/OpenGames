@@ -15,15 +15,17 @@ add_executable(${PROJECT_NAME}
         Source/Scene/ArenaScene.cpp
         Source/Scene/ArenaScene.h
 
+        Source/Menu/GameOverMenu.cpp
+        Source/Menu/GameOverMenu.h
+
         Source/Entity/Paddle.cpp
         Source/Entity/Paddle.h
         Source/Entity/Ball.cpp
         Source/Entity/Ball.h
         Source/Entity/BlockSimple.cpp
         Source/Entity/BlockSimple.h
-
-        Source/Menu/GameOverMenu.cpp
-        Source/Menu/GameOverMenu.h
+        Source/Entity/Score.cpp
+        Source/Entity/Score.h
 )
 # Get the sources together
 #

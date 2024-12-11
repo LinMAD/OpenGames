@@ -8,6 +8,7 @@
 
 namespace SmashBounce
 {
+    class Score;
     class SmashBounceGame;
 
     class ArenaScene final : public OpenGameCore::Scene
@@ -20,6 +21,7 @@ namespace SmashBounce
         void OnRender() override;
 
         [[nodiscard]] bool IsGameOver() const { return m_IsGameOver; }
+        [[nodiscard]] bool IsLevelCleared() const { return m_SceneCleared; }
 
         bool SetIsGameOver(const bool isGameOver)
         {
@@ -32,11 +34,13 @@ namespace SmashBounce
         const int M_BRICK_COLUMNS = 11;
 
         bool m_IsGameOver = false;
+        bool m_SceneCleared = false;
 
         SmashBounceGame& m_Game;
 
         std::shared_ptr<Paddle> m_PlayersPaddle;
         std::shared_ptr<Ball> m_PlayersBall;
         std::vector<std::shared_ptr<BlockSimple>> m_BricksCollection;
+        std::shared_ptr<Score> m_Score;
     };
 } // SmashBounce

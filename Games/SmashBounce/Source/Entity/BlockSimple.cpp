@@ -18,6 +18,11 @@ namespace SmashBounce
         if (m_IsAlive) DrawRectangleRec(m_Rectangle, BLUE);
     }
 
+    unsigned int BlockSimple::GetScorePoints()
+    {
+        return 10;
+    }
+
     void BlockSimple::SetLeftCornerLocation(const Vector2 topLeftCorner)
     {
         m_Rectangle = Rectangle({

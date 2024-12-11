@@ -32,14 +32,14 @@ namespace SmashBounce
         const auto rend = GetRenderer();
         rend->RenderTextWithFont(
             M_TITLE_TEXT,
-            static_cast<int>(m_TitleTextPosition.x),
-            static_cast<int>(m_TitleTextPosition.y),
+            static_cast<int>(m_TitleTextPosition.x) + 30,
+            static_cast<int>(m_TitleTextPosition.y)  - m_TitleTextHeight,
             m_TitleTextHeight,
             0x722F37ff
         );
         rend->RenderTextWithFont(
             M_OPTION_CHOICE,
-            static_cast<int>(rend->GetWidthWithScale() / 2) - 30 * rend->GetScale(),
+            static_cast<int>(rend->GetWidthWithScale() / 2) - 25 * rend->GetScale(),
             static_cast<int>(rend->GetHeightWithScale() / 2) + m_TitleTextHeight,
             30,
             0x000000ff

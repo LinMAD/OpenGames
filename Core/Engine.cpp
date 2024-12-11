@@ -38,7 +38,7 @@ namespace OpenGameCore
 
         while (!WindowShouldClose())
         {
-            const double currentTime = GetTime();
+            const auto currentTime = GetTime();
             m_DeltaTime = currentTime - m_LastTime;
             m_LastTime = currentTime;
 
@@ -53,7 +53,7 @@ namespace OpenGameCore
 
     void Engine::OnUpdate()
     {
-        m_Game->OnUpdate(m_DeltaTime);
+        m_Game->OnUpdate(static_cast<float>(m_DeltaTime));
     }
 
     void Engine::OnRender()

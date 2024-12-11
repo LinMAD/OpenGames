@@ -12,6 +12,8 @@ namespace SmashBounce
         void OnUpdate(float deltaTime) override;
         void OnRender() override;
 
+        unsigned int GetScorePoints();
+
         void SetLeftCornerLocation(Vector2 topLeftCorner);
 
         void SetAlive(const bool alive) { m_IsAlive = alive; }

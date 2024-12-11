@@ -20,7 +20,8 @@ namespace OpenGameCore
             throw std::runtime_error("Font file not found: " + fontPath.string());
         }
 
-        m_CustomFont = LoadFont(filePath.c_str());
+        m_CustomFont = LoadFontEx(filePath.c_str(), 32, nullptr, 250);
+        SetTextureFilter(m_CustomFont.texture, TEXTURE_FILTER_POINT);
     }
 
     void RenderingHandler::RenderText(
@@ -31,7 +32,7 @@ namespace OpenGameCore
         const unsigned int colorHexValue
     )
     {
-        DrawText(text, posX, posY, fontSize, GetColor(colorHexValue));
+        DrawText(text, posX, posY, static_cast<int>(fontSize), GetColor(colorHexValue));
     }
 
     void RenderingHandler::RenderTextWithFont(
@@ -42,7 +43,7 @@ namespace OpenGameCore
         const unsigned int colorHexValue
     )
     {
-        DrawTextEx(m_CustomFont, text, Vector2(posX, posY), fontSize, 0.0f, GetColor(colorHexValue));
+        DrawTextEx(m_CustomFont, text, Vector2(static_cast<float>(posX), static_cast<float>(posY)), static_cast<float>(fontSize), 0.0f, GetColor(colorHexValue));
     }
 
     void RenderingHandler::RenderSprite(const Texture2D& texture, const Vector2 position, const unsigned int colorHexValue)

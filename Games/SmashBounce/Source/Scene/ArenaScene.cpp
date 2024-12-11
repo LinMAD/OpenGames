@@ -8,6 +8,7 @@ namespace SmashBounce
     {
         m_PlayersPaddle = CreateEntity<Paddle>(m_Game.TAG_PLAYER);
         m_PlayersBall = CreateEntity<Ball>(m_Game.TAG_PLAYER_BALL);
+        m_Score = FindEntityByName<Score>(m_Game.TAG_SCORE);
 
         for (int i = 0; i < M_BRICK_ROWS; ++i)
         {
@@ -66,6 +67,7 @@ namespace SmashBounce
                 brick->SetAlive(false);
                 DestroyEntity(brick);
                 m_BricksCollection.erase(it);
+                FindEntityByName<Score>(m_Game.TAG_SCORE)->AddPoints(brick->GetScorePoints());
 
                 break;
             }
