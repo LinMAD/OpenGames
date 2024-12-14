@@ -48,7 +48,8 @@ namespace SmashBounce
         if (m_SceneArena->IsLevelCleared())
         {
             m_Score->CalculateLevelBonus();
-            // TODO Regenerate new blocks
+            // TODO (LinMAD): Make difficulty progression, speed of the ball, new bricks
+            m_SceneArena->NewLevelProgression();
         }
     }
 

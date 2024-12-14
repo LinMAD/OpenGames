@@ -13,6 +13,7 @@ namespace SmashBounce
         void OnRender() override;
 
         void SetNewSpeed(const Vector2 speed) { m_Speed = speed; }
+        void SetNewPosition(const Vector2 position ){ m_Position = position; }
 
         [[nodiscard]] Vector2 GetSpeed() const { return m_Speed; }
         [[nodiscard]] Vector2 GetPosition() const { return m_Position; }

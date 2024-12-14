@@ -29,6 +29,15 @@ namespace SmashBounce
             return m_IsGameOver;
         }
 
+        /**
+         * Generate new level based on given difficulty
+         * TODO (LinMAD): Add level difficulty mutator
+         */
+        void NewLevelProgression();
+
+    private:
+        void CollisionCheck();
+
     private:
         const int M_BRICK_ROWS = 5;
         const int M_BRICK_COLUMNS = 11;
