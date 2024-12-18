@@ -1,5 +1,8 @@
 #pragma once
+
 #include "Entity/Entity.h"
+
+#include "Ball.h"
 
 namespace SmashBounce
 {
@@ -11,10 +14,16 @@ namespace SmashBounce
         void OnUpdate(float deltaTime) override;
         void OnRender() override;
 
+        void AddBall(const std::shared_ptr<Ball>& ball);
+
         [[nodiscard]] Rectangle GetShape() const { return m_PaddleRect; }
 
     private:
+        bool m_IsInitialPlayPaddle = true; // Is player serving the ball?
         float m_PaddleSpeed = 900.0f;
+
         Rectangle m_PaddleRect{};
+
+        std::shared_ptr<Ball> m_PlayersBall;
     };
 } // SmashBounce

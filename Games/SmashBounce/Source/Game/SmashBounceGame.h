@@ -2,7 +2,6 @@
 
 #include "Game/AbstractGameInstance.h"
 
-#include "../Entity/Score.h"
 #include "../Scene/ArenaScene.h"
 
 namespace SmashBounce
@@ -17,13 +16,7 @@ namespace SmashBounce
         void OnRender() override;
 
         void Restart();
-    public:
-        const std::string TAG_PLAYER = "Player";
-        const std::string TAG_PLAYER_BALL = "PlayerBall";
-        const std::string TAG_SCORE = "PlayerScore";
-
     private:
         ArenaScene* m_SceneArena{};
-        std::shared_ptr<Score> m_Score;
     };
 } // Template

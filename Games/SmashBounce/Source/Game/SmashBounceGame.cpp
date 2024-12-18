@@ -2,6 +2,7 @@
 
 #include "../Entity/Score.h"
 #include "../Menu/GameOverMenu.h"
+#include "../Tags/GameTags.h"
 
 // TODO (LinMAD): Add Score system + add speed to the ball
 // TODO (LinMAD): Replace shapes by textures
@@ -47,7 +48,6 @@ namespace SmashBounce
 
         if (m_SceneArena->IsLevelCleared())
         {
-            m_Score->CalculateLevelBonus();
             // TODO (LinMAD): Make difficulty progression, speed of the ball, new bricks
             m_SceneArena->NewLevelProgression();
         }
@@ -66,8 +66,6 @@ namespace SmashBounce
     {
         m_ActiveMenu = nullptr;
         m_SceneArena = new ArenaScene(*this);
-        m_Score = m_SceneArena->CreateEntity<Score>(TAG_SCORE);
-
         m_SceneArena->ToggleIsPaused();
     }
 } // Template

@@ -21,7 +21,7 @@ namespace SmashBounce
         void OnRender() override;
 
         [[nodiscard]] bool IsGameOver() const { return m_IsGameOver; }
-        [[nodiscard]] bool IsLevelCleared() const { return m_SceneCleared; }
+        [[nodiscard]] bool IsLevelCleared() const { return m_LevelCleared; }
 
         bool SetIsGameOver(const bool isGameOver)
         {
@@ -41,9 +41,13 @@ namespace SmashBounce
     private:
         const int M_BRICK_ROWS = 5;
         const int M_BRICK_COLUMNS = 11;
+        const std::string M_LEVEL_UP_TEXT = "Level Up";
 
         bool m_IsGameOver = false;
-        bool m_SceneCleared = false;
+        bool m_LevelCleared = false;
+
+        std::chrono::time_point<std::chrono::steady_clock> m_levelUpStartTime;
+        int m_levelUpDelay = 1000; // Delay duration in milliseconds (e.g., 2 seconds)
 
         SmashBounceGame& m_Game;
 

@@ -26,6 +26,8 @@ add_executable(${PROJECT_NAME}
         Source/Entity/BlockSimple.h
         Source/Entity/Score.cpp
         Source/Entity/Score.h
+
+        Source/Tags/GameTags.h
 )
 # Get the sources together
 #

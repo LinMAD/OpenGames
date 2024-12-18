@@ -16,10 +16,8 @@ namespace SmashBounce
         void AddPoints(unsigned int score);
         void CalculateLevelBonus(int baseBonus = 500);
 
-        // TODO (LinMAD): Add time based score (LVL UP)
-
     private:
-        unsigned int m_Score{};       // total score
+        unsigned int m_Score{}; // total score
         std::string m_ScoreText;
         int m_ScoreTextHeight = 35;
         int m_ScoreTextWidth = 0;

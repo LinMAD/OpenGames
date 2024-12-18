@@ -1,14 +1,19 @@
 #include "ArenaScene.h"
 
+#include <thread>
+
+#include "../Entity/Score.h"
 #include "../Game/SmashBounceGame.h"
+#include "../Tags/GameTags.h"
 
 namespace SmashBounce
 {
     ArenaScene::ArenaScene(SmashBounceGame& game): m_Game(game)
     {
-        m_PlayersPaddle = CreateEntity<Paddle>(m_Game.TAG_PLAYER);
-        m_PlayersBall = CreateEntity<Ball>(m_Game.TAG_PLAYER_BALL);
-        m_Score = FindEntityByName<Score>(m_Game.TAG_SCORE);
+        m_PlayersPaddle = CreateEntity<Paddle>(TAG_PLAYER);
+        m_PlayersBall = CreateEntity<Ball>(TAG_PLAYER_BALL);
+        m_Score = CreateEntity<Score>(TAG_SCORE);
+        m_PlayersPaddle->AddBall(m_PlayersBall);
 
         NewLevelProgression();
     }
@@ -26,7 +31,21 @@ namespace SmashBounce
 
         if (m_BricksCollection.empty())
         {
-            m_SceneCleared = true;
+            m_LevelCleared = true;
+            m_levelUpStartTime = std::chrono::steady_clock::now();
+        }
+
+        if (m_LevelCleared) // Make delay between level ups
+        {
+            const auto now = std::chrono::steady_clock::now();
+            const auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
+                now - m_levelUpStartTime
+            ).count();
+            if (elapsed >= m_levelUpDelay)
+            {
+                m_LevelCleared = false;
+                m_Score->CalculateLevelBonus();
+            }
         }
     }
 
@@ -34,13 +53,25 @@ namespace SmashBounce
     {
         Scene::OnRender();
 
-        // TODO (LinMAD): Add level up message
+        if (m_LevelCleared)
+        {
+            // TODO (LinMAD): Investigate why text not rendered after level clear?
+			const auto rend = GetRenderer();
+        	rend->RenderTextWithFont(
+                M_LEVEL_UP_TEXT.c_str(),
+			     static_cast<int>(rend->GetWidthWithScale()) - 20 / 2,
+                 static_cast<int>(rend->GetHeightWithScale()) - 30 / 2,
+                30,
+                0x722F37ff
+        	);
+		}
     }
 
     void ArenaScene::NewLevelProgression()
     {
-        m_SceneCleared = false;
+        if (m_LevelCleared) return; // Allow level gen when will be false
 
+        // TODO (LinMAD): Add animation for block generation later
         for (int i = 0; i < M_BRICK_ROWS; ++i)
         {
             for (int j = 0; j < M_BRICK_COLUMNS; ++j)
@@ -97,7 +128,7 @@ namespace SmashBounce
             m_PlayersBall->SetNewSpeed(ballSpeed);
         }
 
-        if (m_SceneCleared) return;
+        if (m_LevelCleared) return;
 
         // Check if player managed hit bricks
         for (auto it = m_BricksCollection.begin(); it != m_BricksCollection.end();)
@@ -119,7 +150,7 @@ namespace SmashBounce
                 brick->SetAlive(false);
                 DestroyEntity(brick);
                 m_BricksCollection.erase(it);
-                FindEntityByName<Score>(m_Game.TAG_SCORE)->AddPoints(brick->GetScorePoints());
+                FindEntityByName<Score>(TAG_SCORE)->AddPoints(brick->GetScorePoints());
 
                 break;
             }
