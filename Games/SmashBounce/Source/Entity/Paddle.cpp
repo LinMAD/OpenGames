@@ -2,7 +2,8 @@
 
 namespace SmashBounce
 {
-    Paddle::Paddle(const std::string& tagName, const std::string& uuid) : Entity(tagName, uuid)
+    Paddle::Paddle(const std::string& tagName, const std::string& uuid)
+        : Entity(tagName, uuid), m_PreviousMousePosition()
     {
         m_IsInitialPlayPaddle = true;
         m_PaddleRect = Rectangle{
@@ -18,29 +19,47 @@ namespace SmashBounce
         Entity::OnUpdate(deltaTime);
 
         // Handle movement
-        const auto isMoveLeft = IsKeyDown(KEY_LEFT) || IsKeyDown(KEY_A);
-        const auto isMoveRight = IsKeyDown(KEY_RIGHT) || IsKeyDown(KEY_D);
+        const auto currentMousePosition = GetMousePosition();
+        if (const float mouseMoveDeltaX = currentMousePosition.x - m_PreviousMousePosition.x; mouseMoveDeltaX != 0.0f)
+        {
+            // Mouse control
 
-        if (isMoveLeft && m_PaddleRect.x > 0)
-        {
-            m_PaddleRect.x -= m_PaddleSpeed * deltaTime;
+            m_PaddleRect.x += mouseMoveDeltaX;
+            m_PaddleRect.x = std::clamp(
+                m_PaddleRect.x,
+                0.0f, GetRenderer()->GetWidthWithScale() - m_PaddleRect.width
+            );
+            m_PreviousMousePosition = currentMousePosition;
         }
-        // TODO (LinMAD): Investigate issue with right side inv wall
-        if (isMoveRight && m_PaddleRect.x + m_PaddleRect.width < GetRenderer()->GetWidthWithScale())
+        else
         {
-            m_PaddleRect.x += m_PaddleSpeed * deltaTime;
+            // Keyboard control
+
+            const auto isMoveLeft = IsKeyDown(KEY_LEFT) || IsKeyDown(KEY_A);
+            const auto isMoveRight = IsKeyDown(KEY_RIGHT) || IsKeyDown(KEY_D);
+
+            if (isMoveLeft && m_PaddleRect.x > 0)
+            {
+                m_PaddleRect.x -= m_PaddleSpeed * deltaTime;
+            }
+            if (isMoveRight && m_PaddleRect.x + m_PaddleRect.width < GetRenderer()->GetWidthWithScale())
+            {
+                m_PaddleRect.x += m_PaddleSpeed * deltaTime;
+            }
         }
 
         // Serve the ball
         const auto isServeButtonPressed = IsKeyReleased(KEY_SPACE);
         if (m_IsInitialPlayPaddle)
         {
-            m_PlayersBall->SetNewPosition(Vector2{m_PaddleRect.x + m_PaddleRect.width / 2, m_PlayersBall->GetPosition().y});
+            m_PlayersBall->SetNewPosition(Vector2{
+                m_PaddleRect.x + m_PaddleRect.width / 2, m_PlayersBall->GetPosition().y
+            });
         }
         if (isServeButtonPressed)
         {
             m_IsInitialPlayPaddle = false;
-            m_PlayersBall->SetNewSpeed(Vector2{0, -200.0f});
+            m_PlayersBall->SetNewVelocity(Vector2{0, -400.0f});
         }
     }
 
@@ -55,8 +74,9 @@ namespace SmashBounce
     {
         m_PlayersBall = ball;
         m_PlayersBall->SetNewPosition(Vector2{
-            m_PaddleRect.x + m_PaddleRect.width / 2,
-            m_PaddleRect.y - m_PlayersBall->GetRadius()}
+                m_PaddleRect.x + m_PaddleRect.width / 2,
+                m_PaddleRect.y - m_PlayersBall->GetRadius()
+            }
         );
     }
 } // SmashBounce

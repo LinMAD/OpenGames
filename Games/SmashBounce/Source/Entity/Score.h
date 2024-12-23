@@ -16,6 +16,8 @@ namespace SmashBounce
         void AddPoints(unsigned int score);
         void CalculateLevelBonus(int baseBonus = 500);
 
+        [[nodiscard]] unsigned int GetCurrentLevel() const { return m_CurrentLevel; }
+
     private:
         unsigned int m_Score{}; // total score
         std::string m_ScoreText;

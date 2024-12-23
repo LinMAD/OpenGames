@@ -1,5 +1,7 @@
 #include "Score.h"
 
+#include "../Constants/ColorPicker.h"
+
 namespace SmashBounce
 {
     Score::Score(const std::string& tagName, const std::string& uuid): Entity(tagName, uuid)
@@ -31,14 +33,14 @@ namespace SmashBounce
             static_cast<int>(m_ScoreTextPosition.x),
             static_cast<int>(m_ScoreTextPosition.y),
             m_ScoreTextHeight,
-            0x0080ffff
+            COLOR_PICKER_LIGHT_BLUE
         );
         GetRenderer()->RenderTextWithFont(
             m_LevelText.c_str(),
             static_cast<int>(m_LevelTextPosition.x),
             static_cast<int>(m_LevelTextPosition.y),
             m_LevelTextHeight,
-            0x003d99ff
+            COLOR_PICKER_DARK_BLUE
         );
     }
 

@@ -21,6 +21,7 @@ namespace SmashBounce
     private:
         bool m_IsInitialPlayPaddle = true; // Is player serving the ball?
         float m_PaddleSpeed = 900.0f;
+        Vector2 m_PreviousMousePosition; // Track mouse movement for paddle control
 
         Rectangle m_PaddleRect{};
 

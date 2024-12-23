@@ -27,7 +27,8 @@ add_executable(${PROJECT_NAME}
         Source/Entity/Score.cpp
         Source/Entity/Score.h
 
-        Source/Tags/GameTags.h
+        Source/Constants/GameTags.h
+        Source/Constants/ColorPicker.h
 )
 # Get the sources together
 #

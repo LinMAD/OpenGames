@@ -30,6 +30,7 @@ namespace OpenGameCore
 
         SetExitKey(0);
         SetTargetFPS(60);
+        if (m_Config.HideCursor) DisableCursor();
 
         m_Icon = LoadImage(m_Config.IconPath.c_str());
         SetWindowIcon(m_Icon);

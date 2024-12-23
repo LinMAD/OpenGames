@@ -4,11 +4,13 @@
 
 #include "../Entity/Score.h"
 #include "../Game/SmashBounceGame.h"
-#include "../Tags/GameTags.h"
+#include "../Constants/GameTags.h"
+#include "../Constants/ColorPicker.h"
 
 namespace SmashBounce
 {
-    ArenaScene::ArenaScene(SmashBounceGame& game): m_Game(game)
+    ArenaScene::ArenaScene(SmashBounceGame& game)
+        : m_TimeStarted(Clock::now()), m_Game(game)
     {
         m_PlayersPaddle = CreateEntity<Paddle>(TAG_PLAYER);
         m_PlayersBall = CreateEntity<Ball>(TAG_PLAYER_BALL);
@@ -29,7 +31,7 @@ namespace SmashBounce
 
         CollisionCheck();
 
-        if (m_BricksCollection.empty())
+        if (m_BricksCollection.empty() && !m_LevelCleared)
         {
             m_LevelCleared = true;
             m_levelUpStartTime = std::chrono::steady_clock::now();
@@ -38,33 +40,47 @@ namespace SmashBounce
         if (m_LevelCleared) // Make delay between level ups
         {
             const auto now = std::chrono::steady_clock::now();
-            const auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
-                now - m_levelUpStartTime
-            ).count();
-            if (elapsed >= m_levelUpDelay)
+            const auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(now - m_levelUpStartTime).
+                count();
+
+            if (elapsed >= m_LevelUpDelay)
             {
                 m_LevelCleared = false;
                 m_Score->CalculateLevelBonus();
+
+                NewLevelProgression();
             }
         }
+
+        const auto rend = GetRenderer();
+        m_TimeElapsedText = "Smash Time: " + std::to_string(static_cast<int>(GetPlayerLevelPlayTime())) + "s";
+        m_TimeElapsedTextWidth = MeasureText(m_TimeElapsedText.c_str(), m_TimeElapsedTextHeight);
+        m_TimeElapsedTextPosition = Vector2{(rend->GetWidthWithScale() / 2.f - static_cast<float>(m_TimeElapsedTextHeight * 2)),0.f};
     }
 
     void ArenaScene::OnRender()
     {
         Scene::OnRender();
 
+        const auto rend = GetRenderer();
+        rend->RenderTextWithFont(
+            m_TimeElapsedText.c_str(),
+            static_cast<int>(m_TimeElapsedTextPosition.x),
+            static_cast<int>(m_TimeElapsedTextPosition.y),
+            m_TimeElapsedTextHeight,
+            COLOR_PICKER_LIGHT_BLUE
+        );
+
         if (m_LevelCleared)
         {
-            // TODO (LinMAD): Investigate why text not rendered after level clear?
-			const auto rend = GetRenderer();
-        	rend->RenderTextWithFont(
+            rend->RenderTextWithFont(
                 M_LEVEL_UP_TEXT.c_str(),
-			     static_cast<int>(rend->GetWidthWithScale()) - 20 / 2,
-                 static_cast<int>(rend->GetHeightWithScale()) - 30 / 2,
+                static_cast<int>(rend->GetWidthWithScale()) / 2 - 30,
+                static_cast<int>(rend->GetHeightWithScale()) / 2 - 30,
                 30,
-                0x722F37ff
-        	);
-		}
+                COLOR_PICKER_RED
+            );
+        }
     }
 
     void ArenaScene::NewLevelProgression()
@@ -84,21 +100,31 @@ namespace SmashBounce
                 m_BricksCollection.push_back(blockSimple);
             }
         }
+
+        m_PlayersBall->SetNewBaseSpeedMutator(static_cast<float>(m_Score->GetCurrentLevel()));
     }
 
+    float ArenaScene::GetPlayerLevelPlayTime() const
+    {
+        return std::chrono::duration<float>(Clock::now() - m_TimeStarted).count();
+    }
+
+    // TODO (LinMAD): Refactor logic for ball bounce walls => Bug stuck in the wall
+    // TODO (LinMAD): Refactor logic for ball and paddle => tunneling issue
     void ArenaScene::CollisionCheck()
     {
         // Check if player catch a ball?
         const auto ballPosition = m_PlayersBall->GetPosition();
         const auto ballRadius = m_PlayersBall->GetRadius();
         const auto paddleShape = m_PlayersPaddle->GetShape();
-        auto ballSpeed = m_PlayersBall->GetSpeed();
+        auto ballSpeed = m_PlayersBall->GetVelocity();
 
         const auto isBallCollidingWithPaddle = CheckCollisionCircleRec(ballPosition, ballRadius, paddleShape);
         const auto isSideCollisionWithPaddle = (
             ballPosition.x + ballRadius >= paddleShape.x && ballPosition.x - ballRadius <= paddleShape.x
         ) || (
-            ballPosition.x - ballRadius <= paddleShape.x + paddleShape.width && ballPosition.x + ballRadius >= paddleShape.x + paddleShape.width
+            ballPosition.x - ballRadius <= paddleShape.x + paddleShape.width && ballPosition.x + ballRadius >=
+            paddleShape.x + paddleShape.width
         );
 
         if (isBallCollidingWithPaddle)
@@ -125,7 +151,7 @@ namespace SmashBounce
                 ballSpeed.x *= -1; // Reverse horizontal speed
             }
 
-            m_PlayersBall->SetNewSpeed(ballSpeed);
+            m_PlayersBall->SetNewVelocity(ballSpeed);
         }
 
         if (m_LevelCleared) return;
@@ -142,10 +168,10 @@ namespace SmashBounce
 
             if (brick->IsAlive() && isBallCollidingWithBrick)
             {
-                auto newSpeed = m_PlayersBall->GetSpeed();
+                auto newSpeed = m_PlayersBall->GetVelocity();
                 newSpeed.y *= -1;
 
-                m_PlayersBall->SetNewSpeed(newSpeed);
+                m_PlayersBall->SetNewVelocity(newSpeed);
 
                 brick->SetAlive(false);
                 DestroyEntity(brick);

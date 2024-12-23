@@ -1,5 +1,7 @@
 #include "GameOverMenu.h"
 
+#include "../Constants/ColorPicker.h"
+
 namespace SmashBounce
 {
     GameOverMenu::GameOverMenu(SmashBounceGame& game): m_Game(game)
@@ -18,7 +20,7 @@ namespace SmashBounce
     {
         AbstractMenu::OnUpdate(deltaTime);
 
-        if (IsKeyPressed(KEY_ENTER) || IsKeyPressed(KEY_SPACE))
+        if (IsKeyPressed(KEY_ENTER))
         {
             m_Game.Restart();
         }
@@ -28,21 +30,20 @@ namespace SmashBounce
     {
         AbstractMenu::OnRender();
 
-        // TODO (LinMAD): Check why text looks blurry
         const auto rend = GetRenderer();
         rend->RenderTextWithFont(
             M_TITLE_TEXT,
             static_cast<int>(m_TitleTextPosition.x) + 30,
             static_cast<int>(m_TitleTextPosition.y)  - m_TitleTextHeight,
             m_TitleTextHeight,
-            0x722F37ff
+            COLOR_PICKER_RED
         );
         rend->RenderTextWithFont(
             M_OPTION_CHOICE,
             static_cast<int>(rend->GetWidthWithScale() / 2) - 25 * rend->GetScale(),
             static_cast<int>(rend->GetHeightWithScale() / 2) + m_TitleTextHeight,
             30,
-            0x000000ff
+            COLOR_PICKER_BLACK
         );
     }
 } // SmashBounceGame

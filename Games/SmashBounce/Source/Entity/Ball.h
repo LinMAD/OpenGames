@@ -12,16 +12,19 @@ namespace SmashBounce
         void OnUpdate(float deltaTime) override;
         void OnRender() override;
 
-        void SetNewSpeed(const Vector2 speed) { m_Speed = speed; }
+        void SetNewVelocity(Vector2 speed);
+        void SetNewBaseSpeedMutator(float scalingFactor);
+
         void SetNewPosition(const Vector2 position ){ m_Position = position; }
 
-        [[nodiscard]] Vector2 GetSpeed() const { return m_Speed; }
+        [[nodiscard]] Vector2 GetVelocity() const { return m_Velocity; }
         [[nodiscard]] Vector2 GetPosition() const { return m_Position; }
         [[nodiscard]] float GetRadius() const { return m_Radius; }
 
     private:
         Vector2 m_Position{};
-        Vector2 m_Speed{};
+        Vector2 m_Velocity{};
         float m_Radius;
+        float m_BaseSpeedMultiplier = 1.0f;
     };
 } // SmashBounce

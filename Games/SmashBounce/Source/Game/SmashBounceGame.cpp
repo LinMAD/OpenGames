@@ -2,9 +2,8 @@
 
 #include "../Entity/Score.h"
 #include "../Menu/GameOverMenu.h"
-#include "../Tags/GameTags.h"
+#include "../Constants/GameTags.h"
 
-// TODO (LinMAD): Add Score system + add speed to the ball
 // TODO (LinMAD): Replace shapes by textures
 
 namespace SmashBounce
@@ -45,12 +44,6 @@ namespace SmashBounce
         // Player lost a ball?
         const auto playersBall = m_SceneArena->FindEntityByName<Ball>(TAG_PLAYER_BALL);
         if (m_SceneArena->SetIsGameOver(playersBall->GetPosition().y > GetRenderer()->GetHeightWithScale())) return;
-
-        if (m_SceneArena->IsLevelCleared())
-        {
-            // TODO (LinMAD): Make difficulty progression, speed of the ball, new bricks
-            m_SceneArena->NewLevelProgression();
-        }
     }
 
     void SmashBounceGame::OnRender()

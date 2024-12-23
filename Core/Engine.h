@@ -20,7 +20,10 @@ namespace OpenGameCore
         std::string IconPath = "assets/icon.png";
         // Window related
 
+        // TODO Add VSync
+
         bool DisplayFPS = true;
+        bool HideCursor = false;
     };
 
     /**
@@ -64,8 +67,7 @@ namespace OpenGameCore
         double m_DeltaTime = 0.0;   // Time elapsed since the last frame
         double m_LastTime = 0.0;    // Tracks the last frame's timestamp
 
-
-        EngineConfig m_Config;
+        EngineConfig m_Config; // TODO (LinMAD): Add config loading and binding via file.
         std::shared_ptr<RenderingHandler> m_RenderingHandler;
         std::shared_ptr<AbstractGameInstance> m_Game;
         Image m_Icon{};

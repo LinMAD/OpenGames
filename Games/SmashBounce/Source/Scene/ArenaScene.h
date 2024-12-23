@@ -31,9 +31,14 @@ namespace SmashBounce
 
         /**
          * Generate new level based on given difficulty
-         * TODO (LinMAD): Add level difficulty mutator
          */
         void NewLevelProgression();
+
+    protected:
+        /**
+         * @return float
+         */
+        [[nodiscard]] float GetPlayerLevelPlayTime() const;
 
     private:
         void CollisionCheck();
@@ -47,7 +52,15 @@ namespace SmashBounce
         bool m_LevelCleared = false;
 
         std::chrono::time_point<std::chrono::steady_clock> m_levelUpStartTime;
-        int m_levelUpDelay = 1000; // Delay duration in milliseconds (e.g., 2 seconds)
+        int m_LevelUpDelay = 1000; // Delay duration in milliseconds
+
+        // When scene started and how long player is playing
+        using Clock = std::chrono::high_resolution_clock;
+        std::chrono::time_point<Clock> m_TimeStarted;
+        std::string m_TimeElapsedText;
+        int  m_TimeElapsedTextHeight = 25;
+        int  m_TimeElapsedTextWidth = 0;
+        Vector2  m_TimeElapsedTextPosition{};
 
         SmashBounceGame& m_Game;
 
