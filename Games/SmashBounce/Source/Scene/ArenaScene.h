@@ -5,6 +5,8 @@
 #include "../Entity/Ball.h"
 #include "../Entity/Paddle.h"
 #include "../Entity/BlockSimple.h"
+#include "../Entity/PickupItemMarbles.h"
+#include "Generators/BooleanGenerator.h"
 
 namespace SmashBounce
 {
@@ -64,9 +66,12 @@ namespace SmashBounce
 
         SmashBounceGame& m_Game;
 
+        std::shared_ptr<PickupItemMarbles> m_PickupItemMarbles;
         std::shared_ptr<Paddle> m_PlayersPaddle;
         std::shared_ptr<Ball> m_PlayersBall;
-        std::vector<std::shared_ptr<BlockSimple>> m_BricksCollection;
         std::shared_ptr<Score> m_Score;
+        std::vector<std::shared_ptr<BlockSimple>> m_BricksCollection;
+
+        OpenGameCore::BooleanGenerator* m_GeneratorBool;
     };
 } // SmashBounce

@@ -63,7 +63,7 @@ namespace SmashBounce
             return true;
         }
 
-        const auto playersBall = m_SceneArena->FindEntityByName<Ball>(TAG_PLAYER_BALL);
+        const auto playersBall = m_SceneArena->FindFirstEntityByName<Ball>(TAG_PLAYER_BALL);
 
         // Player lost a ball?
         return m_SceneArena->SetIsGameOver(playersBall->GetPosition().y > GetRenderer()->GetHeightWithScale());

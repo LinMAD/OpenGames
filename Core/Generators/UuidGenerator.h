@@ -3,12 +3,12 @@
 
 namespace OpenGameCore {
     /**
-     * @class UUID
+     * @class UuidGenerator
      * @brief Unique ID generator.
      */
-    class UUID {
+    class UuidGenerator {
     public:
-        UUID();
+        UuidGenerator();
 
         /**
          * @brief Regenerate new UUID.

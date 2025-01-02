@@ -1,15 +1,15 @@
-#include "UUID.h"
+#include "UuidGenerator.h"
 
 #include <iomanip>
 #include <sstream>
 
 namespace OpenGameCore
 {
-    UUID::UUID(): m_Generator(std::random_device{}()), m_UniformDistribution(0, 15)
+    UuidGenerator::UuidGenerator(): m_Generator(std::random_device{}()), m_UniformDistribution(0, 15)
     {
     }
 
-    std::string UUID::Generate()
+    std::string UuidGenerator::Generate()
     {
         std::ostringstream uuid;
 

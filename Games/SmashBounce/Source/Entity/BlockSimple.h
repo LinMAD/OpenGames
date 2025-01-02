@@ -13,6 +13,7 @@ namespace SmashBounce
         void OnRender() override;
 
         unsigned int GetScorePoints();
+        Vector2 GetPosition() const;
 
         void SetLeftCornerLocation(Vector2 topLeftCorner);
 

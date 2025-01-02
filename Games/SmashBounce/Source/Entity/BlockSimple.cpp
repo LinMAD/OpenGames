@@ -23,6 +23,11 @@ namespace SmashBounce
         return 10;
     }
 
+    Vector2 BlockSimple::GetPosition() const
+    {
+        return Vector2(m_Rectangle.x + m_Rectangle.width / 2, m_Rectangle.y);
+    }
+
     void BlockSimple::SetLeftCornerLocation(const Vector2 topLeftCorner)
     {
         m_Rectangle = Rectangle({

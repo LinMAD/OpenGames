@@ -6,12 +6,15 @@
 #include "../Game/SmashBounceGame.h"
 #include "../Constants/GameTags.h"
 #include "../Constants/ColorPicker.h"
+#include "Generators/BooleanGenerator.h"
 
 namespace SmashBounce
 {
     ArenaScene::ArenaScene(SmashBounceGame& game)
         : m_TimeStarted(Clock::now()), m_Game(game)
     {
+        m_GeneratorBool = new OpenGameCore::BooleanGenerator();
+
         m_PlayersPaddle = CreateEntity<Paddle>(TAG_PLAYER);
         m_PlayersBall = CreateEntity<Ball>(TAG_PLAYER_BALL);
         m_Score = CreateEntity<Score>(TAG_SCORE);
@@ -40,8 +43,9 @@ namespace SmashBounce
         if (m_LevelCleared) // Make delay between level ups
         {
             const auto now = std::chrono::steady_clock::now();
-            const auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(now - m_levelUpStartTime).
-                count();
+            const auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
+                now - m_levelUpStartTime
+            ).count();
 
             if (elapsed >= m_LevelUpDelay)
             {
@@ -172,15 +176,43 @@ namespace SmashBounce
 
                 m_PlayersBall->SetNewVelocity(newSpeed);
 
+                // TODO (LinMAD): Improve better of pickups spawn logic maybe with score or block count so it will be more interesting
+                const bool isPickupItemMarblesExist = FindFirstEntityByName<PickupItemMarbles>(TAG_PICKUP_MARBLES) != nullptr;
+                if (!isPickupItemMarblesExist && m_GeneratorBool->GetRandomBool())
+                {
+                    m_PickupItemMarbles = CreateEntity<PickupItemMarbles>(TAG_PICKUP_MARBLES);
+                    m_PickupItemMarbles->SetNewPosition(brick->GetPosition());
+                }
+                else if (isPickupItemMarblesExist && !m_PickupItemMarbles->GetIsActive() && m_GeneratorBool->GetRandomBool())
+                {
+                    m_PickupItemMarbles->SetActive(true);
+                    m_PickupItemMarbles->SetNewPosition(brick->GetPosition());
+                }
+
                 brick->SetAlive(false);
                 DestroyEntity(brick);
                 m_BricksCollection.erase(it);
-                FindEntityByName<Score>(TAG_SCORE)->AddPoints(brick->GetScorePoints());
+                FindFirstEntityByName<Score>(TAG_SCORE)->AddPoints(brick->GetScorePoints());
 
                 break;
             }
 
             ++it;
+        }
+
+        // Is player managed pickup item?
+        if (m_PickupItemMarbles != nullptr)
+        {
+            const auto isMarblesPickedUp = CheckCollisionCircleRec(
+                m_PickupItemMarbles->GetPosition(),
+                 m_PickupItemMarbles->GetRadius(),
+                m_PlayersPaddle->GetShape()
+            );
+            if (isMarblesPickedUp)
+            {
+                m_PickupItemMarbles->SetActive(false); // picked
+                // TODO (LinMAD): Add more marbles to player
+            }
         }
     }
 } // SmashBounce
