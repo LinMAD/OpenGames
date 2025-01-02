@@ -138,7 +138,6 @@ namespace SmashBounce
                 // Calculate relative hit position
                 const float paddleCenter = paddleShape.x + paddleShape.width / 2.0f;
                 const float relativeHitPosition = (ballPosition.x - paddleCenter) / (paddleShape.width / 2.0f);
-                // -1 to +1
 
                 // Adjust horizontal speed for deflection
                 ballSpeed.x += relativeHitPosition * 200.0f; // Adjust deflection angle

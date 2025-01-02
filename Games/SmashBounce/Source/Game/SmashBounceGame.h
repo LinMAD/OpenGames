@@ -16,6 +16,11 @@ namespace SmashBounce
         void OnRender() override;
 
         void Restart();
+
+    protected:
+        bool IsGamePaused();
+        bool IsGameOver();
+
     private:
         ArenaScene* m_SceneArena{};
     };

@@ -1,6 +1,5 @@
 #include "SmashBounceGame.h"
 
-#include "../Entity/Score.h"
 #include "../Menu/GameOverMenu.h"
 #include "../Constants/GameTags.h"
 
@@ -24,26 +23,11 @@ namespace SmashBounce
     {
         AbstractGameInstance::OnUpdate(deltaTime);
 
-        // Game Pause or Game over
-        {
-            if (m_ActiveMenu) return;
-
-            if (m_SceneArena->IsPaused())
-            {
-                return;
-            }
-            if (m_SceneArena->IsGameOver())
-            {
-                SetActiveMenu<GameOverMenu>(std::make_shared<GameOverMenu>(*this));
-                return;
-            }
-        }
+        if (IsGamePaused()) return;
 
         m_SceneArena->OnUpdate(deltaTime); // Update rest of the scene
 
-        // Player lost a ball?
-        const auto playersBall = m_SceneArena->FindEntityByName<Ball>(TAG_PLAYER_BALL);
-        if (m_SceneArena->SetIsGameOver(playersBall->GetPosition().y > GetRenderer()->GetHeightWithScale())) return;
+        if (IsGameOver()) return;
     }
 
     void SmashBounceGame::OnRender()
@@ -61,4 +45,27 @@ namespace SmashBounce
         m_SceneArena = new ArenaScene(*this);
         m_SceneArena->ToggleIsPaused();
     }
-} // Template
+
+    bool SmashBounceGame::IsGamePaused()
+    {
+        if (m_ActiveMenu) return true;
+
+        if (m_SceneArena->IsPaused()) return true;
+
+        return false;
+    }
+
+    bool SmashBounceGame::IsGameOver()
+    {
+        if (m_SceneArena->IsGameOver())
+        {
+            SetActiveMenu<GameOverMenu>(std::make_shared<GameOverMenu>(*this));
+            return true;
+        }
+
+        const auto playersBall = m_SceneArena->FindEntityByName<Ball>(TAG_PLAYER_BALL);
+
+        // Player lost a ball?
+        return m_SceneArena->SetIsGameOver(playersBall->GetPosition().y > GetRenderer()->GetHeightWithScale());
+    }
+} // SmashBounce
