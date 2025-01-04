@@ -63,9 +63,22 @@ namespace SmashBounce
             return true;
         }
 
-        const auto playersBall = m_SceneArena->FindFirstEntityByName<Ball>(TAG_PLAYER_BALL);
+        const auto playerMarbles = m_SceneArena->FindEntitiesByName<Ball>(TAG_PLAYER_BALL);
+        bool isPlayerLostMarbles = playerMarbles.empty();
 
-        // Player lost a ball?
-        return m_SceneArena->SetIsGameOver(playersBall->GetPosition().y > GetRenderer()->GetHeightWithScale());
+        for (const auto& marble : playerMarbles)
+        {
+            if (marble->GetPosition().y > GetRenderer()->GetHeightWithScale())
+            {
+                m_SceneArena->DestroyEntity(marble);
+            }
+            else
+            {
+                isPlayerLostMarbles = false;
+            }
+        }
+
+
+        return m_SceneArena->SetIsGameOver(isPlayerLostMarbles);
     }
 } // SmashBounce

@@ -15,10 +15,9 @@ namespace SmashBounce
     {
         m_GeneratorBool = new OpenGameCore::BooleanGenerator();
 
-        m_PlayersPaddle = CreateEntity<Paddle>(TAG_PLAYER);
-        m_PlayersBall = CreateEntity<Ball>(TAG_PLAYER_BALL);
         m_Score = CreateEntity<Score>(TAG_SCORE);
-        m_PlayersPaddle->AddBall(m_PlayersBall);
+        m_PlayersPaddle = CreateEntity<Paddle>(TAG_PLAYER);
+        m_PlayersPaddle->AddBall( CreateEntity<Ball>(TAG_PLAYER_BALL));
 
         NewLevelProgression();
     }
@@ -105,7 +104,11 @@ namespace SmashBounce
             }
         }
 
-        m_PlayersBall->SetNewBaseSpeedMutator(static_cast<float>(m_Score->GetCurrentLevel()));
+        const auto playerMarbles = FindEntitiesByName<Ball>(TAG_PLAYER_BALL);
+        for (const auto& marble : playerMarbles)
+        {
+            marble->SetNewBaseSpeedMutator(static_cast<float>(m_Score->GetCurrentLevel()));
+        }
     }
 
     float ArenaScene::GetPlayerLevelPlayTime() const
@@ -118,10 +121,92 @@ namespace SmashBounce
     void ArenaScene::CollisionCheck()
     {
         // Check if player catch a ball?
-        const auto ballPosition = m_PlayersBall->GetPosition();
-        const auto ballRadius = m_PlayersBall->GetRadius();
         const auto paddleShape = m_PlayersPaddle->GetShape();
-        auto ballSpeed = m_PlayersBall->GetVelocity();
+        const auto playerMarbles = FindEntitiesByName<Ball>(TAG_PLAYER_BALL);
+        for (size_t i = 0; i < playerMarbles.size(); ++i)
+        {
+            const auto& currentMarble = playerMarbles[i];
+            handleMarbleCollisionWithPlayerPaddle(paddleShape, currentMarble);
+
+            // Check if player managed hit bricks
+            for (auto it = m_BricksCollection.begin(); it != m_BricksCollection.end();)
+            {
+                auto const& brick = *it;
+                auto const isBallCollidingWithBrick = CheckCollisionCircleRec(
+                    currentMarble->GetPosition(),
+                    currentMarble->GetRadius(),
+                    brick->GetShape()
+                );
+
+                if (m_LevelCleared) return;
+
+                if (brick->IsAlive() && isBallCollidingWithBrick)
+                {
+                    auto newSpeed = currentMarble->GetVelocity();
+                    newSpeed.y *= -1;
+
+                    currentMarble->SetNewVelocity(newSpeed);
+
+                    // TODO (LinMAD): Improve better of pickups spawn logic maybe with score or block count so it will be more interesting
+                    if (playerMarbles.size() < 3)
+                    {
+                        const bool isPickupItemMarblesExist = FindFirstEntityByName<PickupItemMarbles>(TAG_PICKUP_MARBLES) != nullptr;
+                        if (!isPickupItemMarblesExist && m_GeneratorBool->GetRandomBool())
+                        {
+                            m_PickupItemMarbles = CreateEntity<PickupItemMarbles>(TAG_PICKUP_MARBLES);
+                            m_PickupItemMarbles->SetNewPosition(brick->GetPosition());
+                        }
+                        else if (isPickupItemMarblesExist && !m_PickupItemMarbles->GetIsActive() && m_GeneratorBool->
+                            GetRandomBool())
+                        {
+                            m_PickupItemMarbles->SetActive(true);
+                            m_PickupItemMarbles->SetNewPosition(brick->GetPosition());
+                        }
+                    }
+
+                    brick->SetAlive(false);
+                    DestroyEntity(brick);
+
+                    m_BricksCollection.erase(it);
+                    FindFirstEntityByName<Score>(TAG_SCORE)->AddPoints(brick->GetScorePoints());
+
+                    break;
+                }
+
+                ++it;
+            }
+
+            // Is player managed pickup item?
+            if (m_PickupItemMarbles != nullptr)
+            {
+                const auto isMarblesPickedUp = CheckCollisionCircleRec(
+                    m_PickupItemMarbles->GetPosition(),
+                     m_PickupItemMarbles->GetRadius(),
+                    m_PlayersPaddle->GetShape()
+                );
+
+                if (isMarblesPickedUp && currentMarble != nullptr)
+                {
+                    if (playerMarbles.size() < 3 && m_PickupItemMarbles->GetIsActive())
+                    {
+                        const auto newMarble = CreateEntity<Ball>(TAG_PLAYER_BALL);
+                        newMarble->SetNewPosition(currentMarble->GetPosition());
+                        newMarble->SetNewVelocity(Vector2(currentMarble->GetVelocity().x + 10, currentMarble->GetVelocity().y + 10));
+                    }
+
+                    m_PickupItemMarbles->SetActive(false); // picked
+                }
+            }
+        }
+    }
+
+    void ArenaScene::handleMarbleCollisionWithPlayerPaddle(const Rectangle paddleShape, const std::shared_ptr<Ball>& marble)
+    {
+        if (marble == nullptr) return;
+
+        const auto ballPosition = marble->GetPosition();
+        const auto ballRadius = marble->GetRadius();
+        auto ballSpeed = marble->GetVelocity();
 
         const auto isBallCollidingWithPaddle = CheckCollisionCircleRec(ballPosition, ballRadius, paddleShape);
         const auto isSideCollisionWithPaddle = (
@@ -137,7 +222,7 @@ namespace SmashBounce
             if (ballPosition.y + ballRadius > paddleShape.y && ballSpeed.y > 0)
             {
                 // Reposition ball to prevent sticking - place just above the paddle
-                m_PlayersBall->SetNewPosition({ballPosition.x, paddleShape.y - ballRadius - 1});
+                marble->SetNewPosition({ballPosition.x, paddleShape.y - ballRadius - 1});
 
                 // Calculate relative hit position
                 const float paddleCenter = paddleShape.x + paddleShape.width / 2.0f;
@@ -154,65 +239,7 @@ namespace SmashBounce
                 ballSpeed.x *= -1; // Reverse horizontal speed
             }
 
-            m_PlayersBall->SetNewVelocity(ballSpeed);
-        }
-
-        if (m_LevelCleared) return;
-
-        // Check if player managed hit bricks
-        for (auto it = m_BricksCollection.begin(); it != m_BricksCollection.end();)
-        {
-            auto const& brick = *it;
-            auto const isBallCollidingWithBrick = CheckCollisionCircleRec(
-                m_PlayersBall->GetPosition(),
-                m_PlayersBall->GetRadius(),
-                brick->GetShape()
-            );
-
-            if (brick->IsAlive() && isBallCollidingWithBrick)
-            {
-                auto newSpeed = m_PlayersBall->GetVelocity();
-                newSpeed.y *= -1;
-
-                m_PlayersBall->SetNewVelocity(newSpeed);
-
-                // TODO (LinMAD): Improve better of pickups spawn logic maybe with score or block count so it will be more interesting
-                const bool isPickupItemMarblesExist = FindFirstEntityByName<PickupItemMarbles>(TAG_PICKUP_MARBLES) != nullptr;
-                if (!isPickupItemMarblesExist && m_GeneratorBool->GetRandomBool())
-                {
-                    m_PickupItemMarbles = CreateEntity<PickupItemMarbles>(TAG_PICKUP_MARBLES);
-                    m_PickupItemMarbles->SetNewPosition(brick->GetPosition());
-                }
-                else if (isPickupItemMarblesExist && !m_PickupItemMarbles->GetIsActive() && m_GeneratorBool->GetRandomBool())
-                {
-                    m_PickupItemMarbles->SetActive(true);
-                    m_PickupItemMarbles->SetNewPosition(brick->GetPosition());
-                }
-
-                brick->SetAlive(false);
-                DestroyEntity(brick);
-                m_BricksCollection.erase(it);
-                FindFirstEntityByName<Score>(TAG_SCORE)->AddPoints(brick->GetScorePoints());
-
-                break;
-            }
-
-            ++it;
-        }
-
-        // Is player managed pickup item?
-        if (m_PickupItemMarbles != nullptr)
-        {
-            const auto isMarblesPickedUp = CheckCollisionCircleRec(
-                m_PickupItemMarbles->GetPosition(),
-                 m_PickupItemMarbles->GetRadius(),
-                m_PlayersPaddle->GetShape()
-            );
-            if (isMarblesPickedUp)
-            {
-                m_PickupItemMarbles->SetActive(false); // picked
-                // TODO (LinMAD): Add more marbles to player
-            }
+            marble->SetNewVelocity(ballSpeed);
         }
     }
 } // SmashBounce

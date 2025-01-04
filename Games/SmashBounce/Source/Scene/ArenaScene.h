@@ -41,6 +41,12 @@ namespace SmashBounce
          * @return float
          */
         [[nodiscard]] float GetPlayerLevelPlayTime() const;
+        /**
+         * Collision check for marble and players paddle.
+         * @param paddleShape
+         * @param marble
+         */
+        static void handleMarbleCollisionWithPlayerPaddle(Rectangle paddleShape, const std::shared_ptr<Ball>& marble);
 
     private:
         void CollisionCheck();
@@ -66,10 +72,9 @@ namespace SmashBounce
 
         SmashBounceGame& m_Game;
 
-        std::shared_ptr<PickupItemMarbles> m_PickupItemMarbles;
         std::shared_ptr<Paddle> m_PlayersPaddle;
-        std::shared_ptr<Ball> m_PlayersBall;
         std::shared_ptr<Score> m_Score;
+        std::shared_ptr<PickupItemMarbles> m_PickupItemMarbles;
         std::vector<std::shared_ptr<BlockSimple>> m_BricksCollection;
 
         OpenGameCore::BooleanGenerator* m_GeneratorBool;

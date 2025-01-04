@@ -56,6 +56,31 @@ namespace OpenGameCore
         }
 
         /**
+         * Find all entities located in the scene that match the specified TAG.
+         * @tparam T
+         * @param name to match against.
+         * @return A vector with Entities that have the specified tag.
+         */
+        template <typename T>
+        std::vector<std::shared_ptr<T>> FindEntitiesByName(const std::string_view name)
+        {
+            std::vector<std::shared_ptr<T>> result;
+
+            for (auto entity : m_Entities | std::views::values)
+            {
+                if (entity != nullptr && entity->GetTag() == name)
+                {
+                    if (auto castedEntity = std::dynamic_pointer_cast<T>(entity))
+                    {
+                        result.push_back(castedEntity);
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /**
          * Find Entity located in the scene.
          * @tparam T
          * @param GUID

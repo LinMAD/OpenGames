@@ -14,8 +14,7 @@ namespace SmashBounce
 
         void SetNewVelocity(Vector2 speed);
         void SetNewBaseSpeedMutator(float scalingFactor);
-
-        void SetNewPosition(const Vector2 position ){ m_Position = position; }
+        void SetNewPosition(const Vector2 position) { m_Position = position; }
 
         [[nodiscard]] Vector2 GetVelocity() const { return m_Velocity; }
         [[nodiscard]] Vector2 GetPosition() const { return m_Position; }

@@ -7,7 +7,7 @@ namespace SmashBounce
         m_FallingSpeed = 3.f;
     }
 
-    void PickupItemMarbles::OnUpdate(float deltaTime)
+    void PickupItemMarbles::OnUpdate(const float deltaTime)
     {
         PickupItem::OnUpdate(deltaTime);
 
