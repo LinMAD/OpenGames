@@ -55,7 +55,15 @@ namespace SmashBounce
             }
         }
 
+
+        // Update elapsed time when player will smash bricks
+        //
         const auto rend = GetRenderer();
+        if (!m_IsGameOn && m_PlayersPaddle->IsBallServed())
+        {
+            m_IsGameOn = true;
+            m_TimeStarted = Clock::now();
+        }
         m_TimeElapsedText = "Smash Time: " + std::to_string(static_cast<int>(GetPlayerLevelPlayTime())) + "s";
         m_TimeElapsedTextWidth = MeasureText(m_TimeElapsedText.c_str(), m_TimeElapsedTextHeight);
         m_TimeElapsedTextPosition = Vector2{(rend->GetWidthWithScale() / 2.f - static_cast<float>(m_TimeElapsedTextHeight * 2)),0.f};
@@ -113,6 +121,8 @@ namespace SmashBounce
 
     float ArenaScene::GetPlayerLevelPlayTime() const
     {
+        if (!m_PlayersPaddle->IsBallServed()) return 0;
+
         return std::chrono::duration<float>(Clock::now() - m_TimeStarted).count();
     }
 

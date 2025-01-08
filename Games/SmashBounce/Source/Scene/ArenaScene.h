@@ -56,6 +56,7 @@ namespace SmashBounce
         const int M_BRICK_COLUMNS = 11;
         const std::string M_LEVEL_UP_TEXT = "Level Up";
 
+        bool m_IsGameOn = false;
         bool m_IsGameOver = false;
         bool m_LevelCleared = false;
 

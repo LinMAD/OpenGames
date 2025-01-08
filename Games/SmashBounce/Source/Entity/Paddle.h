@@ -16,6 +16,7 @@ namespace SmashBounce
 
         void AddBall(const std::shared_ptr<Ball>& ball);
 
+        [[nodiscard]] bool IsBallServed() const { return !m_IsInitialPlayPaddle; }
         [[nodiscard]] Rectangle GetShape() const { return m_PaddleRect; }
 
     private:
