@@ -47,4 +47,14 @@
             </p>
         </td>
     </tr>
+    <tr>
+        <td>
+            <img src="Docs/games/smash_bounce_v0.gif" alt="template game"/>
+        </td>
+        <td>
+            <p>
+                <b>Smash Bounce</b> game that is currently in development <a href="https://github.com/LinMAD/OpenGames/tree/game_smash_bounce">Source Code</a>
+            </p>
+        </td>
+    </tr>
 </table>
