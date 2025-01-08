@@ -25,9 +25,10 @@ add_library(${PROJECT_NAME} STATIC
         Scene/Scene.cpp
         Scene/Scene.h
 
-        Generators/UUID.cpp
-        Generators/UUID.h
-
+        Generators/UuidGenerator.cpp
+        Generators/UuidGenerator.h
+        Generators/BooleanGenerator.h
+        Generators/BooleanGenerator.cpp
 )
 # ----------------------------------------------------------------------
 # raylib dependency

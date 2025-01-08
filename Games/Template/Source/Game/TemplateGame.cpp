@@ -4,13 +4,13 @@ namespace Template
 {
     TemplateGame::TemplateGame()
     {
-        m_TextHeight = 30;
-        m_TextWidth = MeasureText(m_Text, m_TextHeight);
+        m_TitleTextHeight = 30;
+        m_TitleTextWidth = MeasureText(M_TITLE_TEXT, m_TitleTextHeight);
 
         const auto rend = GetRenderer();
-        m_TextPosition = Vector2{
-            static_cast<float>(rend->GetWidth() * rend->GetScale() - m_TextWidth) / 3.0f,
-            static_cast<float>(rend->GetHeight() * rend->GetScale() - m_TextHeight) / 2.0f
+        m_TitleTextPosition = Vector2{
+            rend->GetWidthWithScale()  / 1.5f - static_cast<float>(m_TitleTextWidth),
+            rend->GetHeightWithScale() / 2.0f - static_cast<float>(m_TitleTextHeight)
         };
     }
 
@@ -24,10 +24,10 @@ namespace Template
         AbstractGameInstance::OnRender();
 
         GetRenderer()->RenderText(
-            m_Text,
-            static_cast<int>(m_TextPosition.x),
-            static_cast<int>(m_TextPosition.y),
-            m_TextHeight,
+            M_TITLE_TEXT,
+            static_cast<int>(m_TitleTextPosition.x),
+            static_cast<int>(m_TitleTextPosition.y),
+            m_TitleTextHeight,
             0x0000ffd3
         );
     }

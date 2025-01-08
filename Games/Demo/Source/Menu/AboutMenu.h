@@ -15,6 +15,6 @@ namespace TemplateGame
     private:
         ExampleGame& m_Game;
 
-        const char* m_OptionChoice = "- Back -";
+        const char* M_OPTION_CHOICE = "- Back -";
     };
 } // TemplateGame

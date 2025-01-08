@@ -20,7 +20,7 @@ namespace OpenGameCore {
 
         if (!m_IsPaused)
         {
-            for (const auto entity : m_Entities | std::views::values)
+            for (const auto& entity : m_Entities | std::views::values)
             {
                 entity->OnUpdate(deltaTime);
             }
@@ -33,7 +33,7 @@ namespace OpenGameCore {
 
         if (!m_IsPaused)
         {
-            for (const auto entity : m_Entities | std::views::values)
+            for (const auto& entity : m_Entities | std::views::values)
             {
                 entity->OnRender();
             }

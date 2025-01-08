@@ -4,7 +4,7 @@
 
 #include "EngineComponent.h"
 #include "Entity/Entity.h"
-#include "Generators/UUID.h"
+#include "Generators/UuidGenerator.h"
 
 namespace OpenGameCore
 {
@@ -29,20 +29,20 @@ namespace OpenGameCore
         template <typename T>
         std::shared_ptr<T> CreateEntity(const std::string& name)
         {
-            auto newEntity = std::make_shared<T>(name, UUID().Generate());
+            auto newEntity = std::make_shared<T>(name, UuidGenerator().Generate());
             m_Entities[newEntity->GetUUID()] = newEntity;
 
             return newEntity;
         }
 
         /**
-         * Find Entity located in the scene.
+         * Find Entity located in the scene that is matching TAG.
          * @tparam T
          * @param name
-         * @return Entity
+         * @return Entity that was found first.
          */
         template <typename T>
-        std::shared_ptr<T> FindEntityByName(const std::string_view name)
+        std::shared_ptr<T> FindFirstEntityByName(const std::string_view name)
         {
             for (auto entity : m_Entities | std::views::values)
             {
@@ -53,6 +53,31 @@ namespace OpenGameCore
             }
 
             return {};
+        }
+
+        /**
+         * Find all entities located in the scene that match the specified TAG.
+         * @tparam T
+         * @param name to match against.
+         * @return A vector with Entities that have the specified tag.
+         */
+        template <typename T>
+        std::vector<std::shared_ptr<T>> FindEntitiesByName(const std::string_view name)
+        {
+            std::vector<std::shared_ptr<T>> result;
+
+            for (auto entity : m_Entities | std::views::values)
+            {
+                if (entity != nullptr && entity->GetTag() == name)
+                {
+                    if (auto castedEntity = std::dynamic_pointer_cast<T>(entity))
+                    {
+                        result.push_back(castedEntity);
+                    }
+                }
+            }
+
+            return result;
         }
 
         /**

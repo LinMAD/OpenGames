@@ -11,6 +11,12 @@ namespace OpenGameCore
     {
         s_Instance = this;
         m_RenderingHandler = std::make_shared<RenderingHandler>(cfg.Width, cfg.Height, cfg.Scale);
+
+        InitWindow(
+            m_Config.Width * m_Config.Scale,
+            m_Config.Height * m_Config.Scale,
+            m_Config.Title.c_str()
+        );
     }
 
     Engine::~Engine()
@@ -22,14 +28,9 @@ namespace OpenGameCore
     {
         m_Game = game;
 
-        InitWindow(
-            m_Config.Width * m_Config.Scale,
-            m_Config.Height * m_Config.Scale,
-            m_Config.Title.c_str()
-        );
-
         SetExitKey(0);
         SetTargetFPS(60);
+        if (m_Config.HideCursor) DisableCursor();
 
         m_Icon = LoadImage(m_Config.IconPath.c_str());
         SetWindowIcon(m_Icon);
@@ -38,14 +39,12 @@ namespace OpenGameCore
 
         while (!WindowShouldClose())
         {
-            m_Time += m_DeltaTime;
+            const auto currentTime = GetTime();
+            m_DeltaTime = currentTime - m_LastTime;
+            m_LastTime = currentTime;
+
             OnUpdate();
             OnRender();
-
-            while (GetTime() - m_LastTime > 1.0)
-            {
-                m_LastTime++;
-            }
         }
 
         CloseAudioDevice();
@@ -55,18 +54,17 @@ namespace OpenGameCore
 
     void Engine::OnUpdate()
     {
-        m_Game->OnUpdate(m_DeltaTime);
+        m_Game->OnUpdate(static_cast<float>(m_DeltaTime));
     }
 
     void Engine::OnRender()
     {
         BeginDrawing();
         ClearBackground(RAYWHITE);
+
         if (m_Config.DisplayFPS)
         {
-            GetRendingHandler()->RenderText(
-                TextFormat("FPS: %i", GetFPS()), 5, 0, 20, 0xcc33ff
-            );
+            DrawFPS(5, 0);
         }
 
         m_Game->OnRender();
