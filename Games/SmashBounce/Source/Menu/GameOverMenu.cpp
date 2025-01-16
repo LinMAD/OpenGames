@@ -33,24 +33,24 @@ namespace SmashBounce
         const auto rend = GetRenderer();
         rend->RenderTextWithFont(
             M_TITLE_TEXT,
-            static_cast<int>(m_TitleTextPosition.x) + 30,
+            static_cast<int>(m_TitleTextPosition.x),
             static_cast<int>(m_TitleTextPosition.y) - m_TitleTextHeight,
             m_TitleTextHeight,
-            COLOR_PICKER_BLACK
+            COLOR_PICKER_DARK_BLUE
         );
         rend->RenderTextWithFont(
             M_OPTION_CHOICE,
-            static_cast<int>(rend->GetWidthWithScale() / 2) - 25 * rend->GetScale(),
+            static_cast<int>(rend->GetWidthWithScale() / 2) - 50 * rend->GetScale() / 2,
             static_cast<int>(rend->GetHeightWithScale() / 2 + 3) + m_TitleTextHeight,
-            30,
-            COLOR_PICKER_DARK_GREEN
+            50,
+            COLOR_PICKER_BLACK
         );
         rend->RenderTextWithFont(
             M_OPTION_CHOICE,
-            static_cast<int>(rend->GetWidthWithScale() / 2) - 25 * rend->GetScale(),
+            static_cast<int>(rend->GetWidthWithScale() / 2) - 50 * rend->GetScale() / 2,
             static_cast<int>(rend->GetHeightWithScale() / 2) + m_TitleTextHeight,
-            30,
-            COLOR_PICKER_BLACK
+            50,
+            COLOR_PICKER_LIGHT_BLUE
         );
     }
 } // SmashBounceGame

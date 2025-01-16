@@ -47,32 +47,52 @@ namespace SmashBounce
 
         GetRenderer()->RenderTextWithFont(
             "Smash Bounce",
-            static_cast<int>(GetRenderer()->GetWidthWithScale() / 2) - 100 * GetRenderer()->GetScale(),
-            0,
+            static_cast<int>(GetRenderer()->GetWidthWithScale() / 2) - 110 * GetRenderer()->GetScale(),
+            100,
             100,
             COLOR_PICKER_DARK_BLUE
         );
 
         for (size_t i = 0; i < m_OptionChoices.size(); i++)
         {
-            unsigned int optionColor = COLOR_PICKER_BLACK;
+            unsigned int optionColor = COLOR_PICKER_LIGHT_GRAY;
             const char* option = m_OptionChoices[i];
-            if (i == m_OptionSelected) optionColor = COLOR_PICKER_DARK_GREEN;
+            if (i == m_OptionSelected) optionColor = COLOR_PICKER_LIGHT_BLUE;
 
-            GetRenderer()->RenderTextWithFont(
-                option,
-                350 + 3,
-                static_cast<int>(GetRenderer()->GetHeightWithScale() / 2 + static_cast<float>(i) * 60),
-                50,
-                COLOR_PICKER_BLACK
-            );
-            GetRenderer()->RenderTextWithFont(
-                option,
-                350,
-                static_cast<int>(GetRenderer()->GetHeightWithScale() / 2 + static_cast<float>(i) * 60 + 3),
-                50,
-                optionColor
-            );
+            if (i == 0)
+            {
+                GetRenderer()->RenderTextWithFont(
+                    option,
+                    static_cast<int>(GetRenderer()->GetWidthWithScale() / 2) - 20 * GetRenderer()->GetScale(),
+                    static_cast<int>(GetRenderer()->GetHeightWithScale() / 2 + static_cast<float>(i) * 0),
+                    50,
+                    COLOR_PICKER_BLACK
+                );
+                GetRenderer()->RenderTextWithFont(
+                    option,
+                    static_cast<int>(GetRenderer()->GetWidthWithScale() / 2) - 20 * GetRenderer()->GetScale(),
+                    static_cast<int>(GetRenderer()->GetHeightWithScale() / 2 + static_cast<float>(i) * 60 + 3),
+                    50,
+                    optionColor
+                );
+            }
+            else
+            {
+                GetRenderer()->RenderTextWithFont(
+                    option,
+                    static_cast<int>(GetRenderer()->GetWidthWithScale() / 2) - 25 * GetRenderer()->GetScale(),
+                    static_cast<int>(GetRenderer()->GetHeightWithScale() / 2 + static_cast<float>(i) * 60),
+                    50,
+                    COLOR_PICKER_BLACK
+                );
+                GetRenderer()->RenderTextWithFont(
+                    option,
+                    static_cast<int>(GetRenderer()->GetWidthWithScale() / 2) - 25 * GetRenderer()->GetScale(),
+                    static_cast<int>(GetRenderer()->GetHeightWithScale() / 2 + static_cast<float>(i) * 60 + 3),
+                    50,
+                    optionColor
+                );
+            }
         }
     }
 } // SmashBounce

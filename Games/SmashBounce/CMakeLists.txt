@@ -32,6 +32,8 @@ add_executable(${PROJECT_NAME}
         Source/Entity/PickupItem.h
         Source/Entity/PickupItemMarbles.cpp
         Source/Entity/PickupItemMarbles.h
+        Source/Entity/PickupItemGun.h
+        Source/Entity/PickupItemGun.cpp
 
         Source/Constants/GameTags.h
         Source/Constants/ColorPicker.h

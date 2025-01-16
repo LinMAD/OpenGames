@@ -66,7 +66,10 @@ namespace SmashBounce
         }
         m_TimeElapsedText = "Smash Time: " + std::to_string(static_cast<int>(GetPlayerLevelPlayTime())) + "s";
         m_TimeElapsedTextWidth = MeasureText(m_TimeElapsedText.c_str(), m_TimeElapsedTextHeight);
-        m_TimeElapsedTextPosition = Vector2{(rend->GetWidthWithScale() / 2.f - static_cast<float>(m_TimeElapsedTextHeight * 2)),0.f};
+        m_TimeElapsedTextPosition = Vector2{
+            (rend->GetWidthWithScale() / 2.f - static_cast<float>(m_TimeElapsedTextHeight * 2) - static_cast<float>(m_TimeElapsedTextHeight)),
+            0.f
+        };
     }
 
     void ArenaScene::OnRender()
@@ -86,9 +89,9 @@ namespace SmashBounce
         {
             rend->RenderTextWithFont(
                 M_LEVEL_UP_TEXT.c_str(),
-                static_cast<int>(rend->GetWidthWithScale()) / 2 - 30,
-                static_cast<int>(rend->GetHeightWithScale()) / 2 - 30,
-                30,
+                static_cast<int>(rend->GetWidthWithScale()) / 2 - 35 * rend->GetScale(),
+                static_cast<int>(rend->GetHeightWithScale()) / 2 + 10,
+                60,
                 COLOR_PICKER_RED
             );
         }

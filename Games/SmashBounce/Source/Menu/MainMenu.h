@@ -1,5 +1,7 @@
 #pragma once
 
+#include <array>
+
 #include "UI/AbstractMenu.h"
 
 #include "../Game/SmashBounceGame.h"

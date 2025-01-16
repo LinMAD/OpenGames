@@ -10,7 +10,7 @@ namespace SmashBounce
 {
     SmashBounceGame::SmashBounceGame()
     {
-        GetRenderer()->AddFont("assets/fonts/CAT-Arena.ttf");
+        GetRenderer()->AddFont("assets/fonts/Stormfaze.otf");
 
         SetActiveMenu<MainMenu>(std::make_shared<MainMenu>(*this));
     }
