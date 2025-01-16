@@ -2,6 +2,7 @@
 
 #include "../Menu/GameOverMenu.h"
 #include "../Constants/GameTags.h"
+#include "../Menu/MainMenu.h"
 
 // TODO (LinMAD): Replace shapes by textures
 
@@ -10,8 +11,8 @@ namespace SmashBounce
     SmashBounceGame::SmashBounceGame()
     {
         GetRenderer()->AddFont("assets/fonts/CAT-Arena.ttf");
-        // TODO ADD Simple Main menu
-        Restart();
+
+        SetActiveMenu<MainMenu>(std::make_shared<MainMenu>(*this));
     }
 
     SmashBounceGame::~SmashBounceGame()
@@ -23,7 +24,7 @@ namespace SmashBounce
     {
         AbstractGameInstance::OnUpdate(deltaTime);
 
-        if (IsGamePaused()) return;
+        if (m_ActiveMenu || IsGamePaused()) return;
 
         m_SceneArena->OnUpdate(deltaTime); // Update rest of the scene
 

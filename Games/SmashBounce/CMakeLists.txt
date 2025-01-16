@@ -15,6 +15,8 @@ add_executable(${PROJECT_NAME}
         Source/Scene/ArenaScene.cpp
         Source/Scene/ArenaScene.h
 
+        Source/Menu/MainMenu.cpp
+        Source/Menu/MainMenu.h
         Source/Menu/GameOverMenu.cpp
         Source/Menu/GameOverMenu.h
 

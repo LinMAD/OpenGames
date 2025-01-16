@@ -1,7 +1,5 @@
 #pragma once
 
-#include <array>
-
 #include "UI/AbstractMenu.h"
 
 #include "../Game/SmashBounceGame.h"
@@ -17,7 +15,7 @@ namespace SmashBounce
         void OnRender() override;
 
     private:
-        const char* M_OPTION_CHOICE = "- Retry -";
+        const char* M_OPTION_CHOICE = "Retry";
 
         // Game over related
         const char* M_TITLE_TEXT = "Game Over";

@@ -34,9 +34,16 @@ namespace SmashBounce
         rend->RenderTextWithFont(
             M_TITLE_TEXT,
             static_cast<int>(m_TitleTextPosition.x) + 30,
-            static_cast<int>(m_TitleTextPosition.y)  - m_TitleTextHeight,
+            static_cast<int>(m_TitleTextPosition.y) - m_TitleTextHeight,
             m_TitleTextHeight,
-            COLOR_PICKER_RED
+            COLOR_PICKER_BLACK
+        );
+        rend->RenderTextWithFont(
+            M_OPTION_CHOICE,
+            static_cast<int>(rend->GetWidthWithScale() / 2) - 25 * rend->GetScale(),
+            static_cast<int>(rend->GetHeightWithScale() / 2 + 3) + m_TitleTextHeight,
+            30,
+            COLOR_PICKER_DARK_GREEN
         );
         rend->RenderTextWithFont(
             M_OPTION_CHOICE,
